@@ -8,17 +8,6 @@
     "nx.json": "*"
   },
   "projects": {
-    "mockly-workspace-e2e": {
-      "tags": []
-    },
-    "mockly-workspace": {
-      "tags": []
-    },
-    "api": {
-      "tags": []
-    },
-    "api-interface": {
-      "tags": []
-    }
+
   }
 }
