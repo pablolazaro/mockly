@@ -8,7 +8,7 @@
     "start:cli:debug": "nodemon --config nodemon-debug.json",
     "start:cli": "ts-node -r tsconfig-paths/register --project apps/cli/tsconfig.json apps/cli/src/debug.ts",
     "build": "ng build",
-    "test": "ng test",
+    "test": "ng test --passWithNoTests",
     "lint": "nx lint && ng lint",
     "e2e": "ng e2e",
     "build:cli": "tsc --project apps/cli/tsconfig.json",
