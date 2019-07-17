@@ -41,5 +41,9 @@ jobs:
           path: reports
 
       - codecov/upload:
-          file: coverage
+          file: coverage/apps/server/coverage-final.json
+          token: ddd24a41-f4e2-4670-bf00-cdff16c2fea1
+
+      - codecov/upload:
+          file: coverage/apps/cli/coverage-final.json
           token: ddd24a41-f4e2-4670-bf00-cdff16c2fea1
