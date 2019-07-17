@@ -8,6 +8,7 @@
     "nx.json": "*"
   },
   "projects": {
-
+    "server": {},
+    "cli": {}
   }
 }

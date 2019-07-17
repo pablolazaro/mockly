@@ -37,3 +37,8 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# TypeScript
+*.d.ts
+**/dist
+**/node_modules
