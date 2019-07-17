@@ -8,10 +8,10 @@ export class DataControllerFactory {
    * Creates a generic controller for a resource.
    * @param resourceName
    */
-  static createController(resourceName: string, prefix: string): any {
+  static createController(resourceName: string, prefix: string = ''): any {
 
     @Controller(appendPrefix(resourceName, prefix))
-    class EphimeralDataController extends DataController {
+    class EphimeralDataController extends DataController<any> {
       constructor (registry: DatabaseRegistry) { super(registry, resourceName); }
     }
 

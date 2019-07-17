@@ -1,7 +1,7 @@
-import { Get, NotFoundException, Post } from '@nestjs/common';
+import { Get, HttpCode, NotFoundException, Post } from '@nestjs/common';
 import { DatabaseRegistry } from '../services/database-registry.service';
 
-export class DataController {
+export class DataController<T> {
   private readonly _db: PouchDB.Database;
 
   constructor (
@@ -17,6 +17,7 @@ export class DataController {
   }
 
   @Post()
+  @HttpCode(200)
   async postData() {
     return await this._getData(this._dataName);
   }
