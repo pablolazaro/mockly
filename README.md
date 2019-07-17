@@ -1,4 +1,5 @@
-[![CircleCI](https://circleci.com/gh/pablolazaro/mockly.svg?style=svg&circle-token=3e0293b00e6875dbf3f4e82f976708e75e35b556)](https://circleci.com/gh/pablolazaro/mockly)
+![CircleCI](https://img.shields.io/circleci/build/github/pablolazaro/mockly.svg?token=3e0293b00e6875dbf3f4e82f976708e75e35b556)
+
 
 # Mockly
 
