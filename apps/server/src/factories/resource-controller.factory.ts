@@ -8,7 +8,7 @@ export class ResourceControllerFactory {
    * Creates a generic controller for a resource.
    * @param resourceName
    */
-  static createController(resourceName: string, prefix: string): any {
+  static createController(resourceName: string, prefix: string = ''): any {
 
     @Controller(appendPrefix(resourceName, prefix))
     class EphimeralResourceController extends ResourceController<any> {

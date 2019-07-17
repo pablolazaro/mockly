@@ -37,14 +37,14 @@ export class ResourceController<T> {
     const result = await this._db.post({...body, id});
 
     if (result.ok) {
-      return this._getResource(id);
+      return await this._getResource(id);
     } else {
       throw new InternalServerErrorException(result);
     }
   }
 
   @Get(':id')
-  async getOne (@Param() id: string) {
+  async getOne (@Param('id') id: string) {
     const resource = await this._getResource(id);
 
     if (resource !== null && resource !== undefined) {
@@ -55,20 +55,26 @@ export class ResourceController<T> {
   }
 
   @Put(':id')
-  async update (@Param() id: string, @Body() body: any): Promise<PouchDB.Core.ExistingDocument<T>>{
+  async update (@Param('id') id: string, @Body() body: any): Promise<PouchDB.Core.ExistingDocument<T>>{
     if (typeof body !== 'object') {
       throw new BadRequestException();
     }
 
-    const resource = this._getResource(id);
-    const result = await this._db.put({ ...resource, ...body });
-    return this._getResource(id);
+    const resource = await this._getResource(id);
+
+    if (resource !== null && resource !== undefined) {
+      const result = await this._db.put({ ...resource, ...body });
+      return await this._getResource(id);
+    } else {
+      throw new NotFoundException();
+    }
+
   }
 
 
   @HttpCode(204)
   @Delete(':id')
-  async delete (@Param() id: string) {
+  async delete (@Param('id') id: string) {
     const resource = await this._getResource(id);
 
     if (resource !== null && resource !== undefined) {
