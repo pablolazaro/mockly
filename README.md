@@ -1,84 +1,142 @@
-# MocklyWorkspace
+# Mockly
 
-This project was generated using [Nx](https://nx.dev).
+**Mockly** es un servidor de _mocks_ o datos ficticios que busca optimizar y agilizar los desarrollos de las aplicaciones Front End rompiendo la dependencia entre la aplicación Front End a desarrollar y los servicios HTTP que consuma. Puedes utilizar **Mockly** para simular tu capa de Back End y tener disponible rápidamente los servicios que necesites devolviendo datos ficticios. Serás más rápido en tus desarrollos al no depender de la disponibilidad y el estado de tu plataforma de Back End. **Mockly** está pensado para soportar servicios que den cobertura a un _API RESTful_ pero existen mecanismos para hacerlo funcionar también si tu aplicación no sigue al 100% el estándar REST.
 
-<p align="center"><img src="https://raw.githubusercontent.com/nrwl/nx/master/nx-logo.png" width="450"></p>
+## Mockly CLI
 
-🔎 **Nx is a set of Angular CLI power-ups for modern development.**
+La _CLI_ es la forma más rápida de utilizar **Mockly**. Instálala de esta forma:
 
-## Quick Start & Documentation
+Globalmente si lo utilizas en varios proyectos o no quieres depender de un proyecto NPM:
 
-[Nx Documentation](https://nx.dev)
+```
+npm i -g @mockly/cli
+```
 
-[30-minute video showing all Nx features](https://nx.dev/getting-started/what-is-nx)
+O en un proyecto NPM específico:
 
-[Interactive Tutorial](https://nx.dev/tutorial/01-create-application)
+```
+npm i --save-dev @mockly/cli
+```
 
-## Adding capabilities to your workspace
+## Crear un recurso
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+El principio de un API RESTful es la existencia de recursos que pueden ser manipulados a través de una interfaz HTTP.
 
-These capabilities include generating applications, libraries, .etc as well as the devtools to test, and build projects as well.
+**Mockly** está diseñado originalmente para simular servicios que nos permitan modificar los recursos REST que necesitemos. Por lo tanto, lo primero que debemos hacer
+es definir cuales son nuestros recursos. Para ello, necesitamos crear un fichero `{name}.resource.json` con la información del recurso: nombre de la colección del recurso y los recursos iniciales que queremos que tenga.
 
-Below are some plugins which you can add to your workspace:
+Para definir el recurso de `Cars bastaría con crear un fichero `cars.resource.json` con la siguiente estructura:
 
-- [Angular](https://angular.io)
-  - `ng add @nrwl/angular`
-- [React](https://reactjs.org)
-  - `ng add @nrwl/react`
-- Web (no framework frontends)
-  - `ng add @nrwl/web`
-- [Nest](https://nestjs.com)
-  - `ng add @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `ng add @nrwl/express`
-- [Node](https://nodejs.org)
-  - `ng add @nrwl/node`
+```
+{
+  "cars": [
+    {
+      "id:" "FIJSD8QH"
+      "color": "black"
+    },
+    {
+      "id:" "IO19823H"
+      "color": "red"
+    },
+    {
+      "id:" "12UH38D"
+      "color": "blue"
+    }
+  ]
+}
+```
 
-## Generate an application
+Es importante tener en cuenta que el nombre de la propiedad da nombre a la colección del recurso y que los endpoints generados estarán basados en este nombre. En este caso, se estaría creando el recurso `Cars` con los elementos definidos dentro del array.
 
-Run `ng g @nrwl/angular:app my-app` to generate an application.
+> Es aconsejable tener una única colección por fichero, aunque es posible definir más de una colección en un mismo fichero JSON
 
-> You can use any of the plugins above to generate applications as well.
+Si arrancamos el servidor ejecutando `mockly start` y visitamos el navegador en la URL `http://localhost:3000/cars` veremos que devuelve los datos definidos.
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
+Automáticamente **Mockly** genera los endpoints necesarios para manipular las colecciones de recursos definidas:
 
-## Generate a library
+Sobre el endpoint `/cars` tendremos disponibles las siguientes operaciones HTTP:
 
-Run `ng g @nrwl/angular:lib my-lib` to generate a library.
+* `GET`  - Para obtener todos los recursos de la colección
+* `POST` - Para crear un nuevo recurso en la colección
 
-> You can also use any of the plugins above to generate libraries as well.
+Sobre un recurso ya existente (`/cars/:id`):
 
-Libraries are sharable across libraries and applications. They can be imported from `@mockly-workspace/mylib`.
+* `GET` - Obtiene el recurso
+* `PUT` / `PATCH` Modifica parcial o totalmente el recurso
+* `DELETE` - Elimina el recurso
 
-## Development server
 
-Run `ng serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+## Configuración de Mockly
 
-## Code scaffolding
+Puedes configurar parámetros generales de la herramienta utilizando el fichero `.mocklyrc`. Este fichero de configuración
+tiene una estructura que puedes validar utilizando el JSON Schema proporcionado en el paquete (ver ejemplo).
 
-Run `ng g component my-component --project=my-app` to generate a new component.
+Las opciones son:
 
-## Build
+| Nombre        | Tipo de valor         | Valor por defecto  | Descripción
+| ------------- |:-------------:| -----:| -------:|
+| delay      | integer | 0 |  Añade un delay a todas las peticiones |
+| port      | integer      |   3000 | Puerto donde se levanta el servidor de Mockly |
+| prefix | string     |    `null`  | Prefijo utilizando para todos los recursos |
+| resourceFilesGlob | string | `**/*.resource.json` | Glob utilizado para obtener los ficheros de recursos |
+|  rewritesFilesGlob | string | `**/*.rewrites.json` | Glob utilizado para obtener los ficheros de reescritura |
 
-Run `ng build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Un ejemplo de configuración sería el siguiente: 
 
-## Running unit tests
+```
+{
+    "schema": "node_modules/@mockly/tools/schemas/configuration.schema.json",
+    "delay": 700,
+    "port": 3001,
+    "prefix": "/api/v1",
+    "resourceFilesGlob": "**/*.recursos.json",
+    "rewritesFilesGlob": "**/*.rewrites.json"
+}
+```
 
-Run `ng test my-app` to execute the unit tests via [Jest](https://jestjs.io).
 
-Run `npm run affected:test` to execute the unit tests affected by a change.
+## Configuración de respuestas
 
-## Running end-to-end tests
+Por defecto, **Mockly** utiliza una [base de datos interna](https://pouchdb.com) para almacenar las colecciones de 
+recursos definidas e ir almacenando las manipulaciones que se hagan sobre éstos. Por lo tanto, las respuestas de los 
+métodos HTTP expuestos son la representación real de los recursos en la base de datos.
 
-Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
+Para ser flexible con los comportamientos y poder cubrir el máximo número de casuísticas la herramienta permite realizar
+configuraciones sobre como queremos que se comporte una petición en concreto. Por ejemplo, forzar que una petición devuelva
+un error o un código 401, que devuelva cabeceras adicionales o provocar que la respuesta tarde más de lo habitual.
 
-Run `npm run affected:e2e` to execute the end-to-end tests affected by a change.
+Lo primero que debemos hacer para configurar las respuestas es crear el fichero de configuración. Este fichero JSON tiene
+una estructura establecida y se debe seguir adecuadamente para que el comportamiento sea el adecuado. 
 
-## Understand your workspace
+> Hemos preparado un JSON Schema que te servirá de guía a la hora de rellenar tus configuraciones
 
-Run `npm run dep-graph` to see a diagram of the dependencies of your projects.
+El fichero JSON debe contener una key con el nombre `respuestas` y un array de configuraciones de respuestas.
+Cada configuración debe tener las siguientes propiedades obligatorias:
 
-## Further help
+* `path` es la URI de la petición que queremos configurar
+* `method` es el método HTTP de la petición que queremos configurar
 
-Visit the [Nx Documentation](https://nx.dev) to learn more.
+Estas dos propiedades nos sirven para realizar el *match* de la ruta que estamos configurando. Además podemos configurar
+los siguientes parámetros:
+
+* `body` es el cuerpo de la respuesta
+* `cookies` son las cookies que queremos que guarde la respuesta
+* `delay` es el tiempo que queremos que tarde la petición
+* `headers` son las cabeceras que queremos que devuelva la petición
+* `status` es el código de estado HTTP que queremos que devuelva la petición
+
+Un ejemplo sería este:
+
+```
+{
+    "$schema": "node_modules/@mockly/tools/schemas/response-configuration.schema.json",
+    "responses": [
+        {
+            "path": "/cars",
+            "method": "POST",
+            "status": 500,
+            "body": "Service unavailable"
+        }
+    ]
+}
+```
