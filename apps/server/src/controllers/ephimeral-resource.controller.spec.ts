@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ResourceControllerFactory } from '../factories/resource-controller.factory';
-import { createResourceDatabase } from '../../dist/utils';
 import { DatabaseRegistry } from '../services/database-registry.service';
 import request from 'supertest';
+import { createResourceDatabase } from '../utils';
 
 describe('EphimeralResourceController (e2e)', () => {
 
