@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/pablolazaro/mockly.svg?style=svg&circle-token=3e0293b00e6875dbf3f4e82f976708e75e35b556)](https://circleci.com/gh/pablolazaro/mockly)
+
 # Mockly
 
 **Mockly** es un servidor de _mocks_ o datos ficticios que busca optimizar y agilizar los desarrollos de las aplicaciones Front End rompiendo la dependencia entre la aplicación Front End a desarrollar y los servicios HTTP que consuma. Puedes utilizar **Mockly** para simular tu capa de Back End y tener disponible rápidamente los servicios que necesites devolviendo datos ficticios. Serás más rápido en tus desarrollos al no depender de la disponibilidad y el estado de tu plataforma de Back End. **Mockly** está pensado para soportar servicios que den cobertura a un _API RESTful_ pero existen mecanismos para hacerlo funcionar también si tu aplicación no sigue al 100% el estándar REST.
