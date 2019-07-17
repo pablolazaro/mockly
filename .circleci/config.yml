@@ -40,6 +40,6 @@ jobs:
       - store_test_results:
           path: reports
 
-      - codecov/upload
-        file: coverage
-        token: ddd24a41-f4e2-4670-bf00-cdff16c2fea1
+      - codecov/upload:
+          file: coverage
+          token: ddd24a41-f4e2-4670-bf00-cdff16c2fea1
