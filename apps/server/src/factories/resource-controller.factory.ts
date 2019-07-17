@@ -11,7 +11,7 @@ export class ResourceControllerFactory {
   static createController(resourceName: string, prefix: string): any {
 
     @Controller(appendPrefix(resourceName, prefix))
-    class EphimeralResourceController extends ResourceController {
+    class EphimeralResourceController extends ResourceController<any> {
       constructor(registry: DatabaseRegistry) {
         super(registry, resourceName);
       }
