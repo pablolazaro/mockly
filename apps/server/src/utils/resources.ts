@@ -11,6 +11,7 @@ import { Controller } from '@nestjs/common';
 import { DatabaseRegistry } from '../services/database-registry.service';
 import { ResourceControllerFactory } from '../factories/resource-controller.factory';
 import { DataControllerFactory } from '../factories/data-controller.factory';
+import uniqid from 'uniqid';
 
 PouchDB.plugin(adapter);
 PouchDB.plugin(find);
@@ -113,4 +114,9 @@ export function appendPrefix (name: string, prefix: string) {
   } else {
     return name;
   }
+}
+
+
+export function getRandomId (): string {
+  return uniqid();
 }

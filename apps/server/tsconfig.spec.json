@@ -1,0 +1,5 @@
+{
+  "extends": "../../tsconfig.base",
+  "exclude": ["node_modules"],
+  "include": ["src/**/*.ts", "src/**/*.spec.ts"]
+}
