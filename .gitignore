@@ -40,7 +40,7 @@ Thumbs.db
 
 # TypeScript
 *.d.ts
-**/dist
+dist
 **/node_modules
 
 junit.xml
