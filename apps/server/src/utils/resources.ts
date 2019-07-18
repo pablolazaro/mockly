@@ -108,9 +108,7 @@ export function capitalizeFirstLetter(text: string) {
 
 export function appendPrefix (name: string, prefix: string) {
   if (prefix !== undefined && prefix !== null && prefix !== '') {
-    prefix.endsWith('/')
-
-    return prefix + prefix.endsWith('/') ? '' : '/' + name;
+    return prefix + (prefix.endsWith('/') ? '' : '/') + name;
   } else {
     return name;
   }

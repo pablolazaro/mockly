@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "",
+  "name": "Mockly responses schema",
+  "properties": {
+    "responses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "oneOf": [{
+              "type": "object"
+            }, {
+              "type": "string"
+            }],
+            "description": "Response body",
+            "examples": [{
+              "result": "ok"
+            }, "ok"]
+          },
+          "cookies": {
+            "type": "object",
+            "description": "Cookies setted in the response"
+          },
+          "delay": {
+            "type": "integer",
+            "description": "Forces a delay in the response",
+            "examples": [300, 500, 700, 1500]
+          },
+          "headers": {
+            "type": "object",
+            "description": "Response headers"
+          },
+          "path": {
+            "type": "string",
+            "description": "Request relative path",
+            "examples": ["/api/accounts", "/api/v1/movements", "/api/me"]
+          },
+          "method": {
+            "type": "string",
+            "description": "Request method",
+            "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"]
+          },
+          "status": {
+            "type": "integer",
+            "description": "Responses HTTP status code",
+            "enum": [200, 201, 202, 302, 400, 401, 403, 404, 500]
+          }
+        },
+        "required": ["path", "method", "status"],
+        "additionalProperties": false
+      }
+    }
+  }
+}

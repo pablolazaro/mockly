@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "",
+  "name": "Mockly configuration schema",
+  "properties": {
+    "delay": {
+      "type": "integer",
+      "description": "Sets a delay for all responses",
+      "default": 0,
+      "examples": [300, 500, 700, 1500]
+    },
+    "port": {
+      "type": "integer",
+      "description": "Sets a delay for all responses",
+      "default": 3000,
+      "examples": [3001, 3002, 3003]
+    },
+    "prefix": {
+      "type": "string",
+      "description": "Prefix for all requests",
+      "examples": ["/api", "/api/v1"]
+    },
+    "resourceFilesGlob": {
+      "type": "string",
+      "description": "Glob applied to retrieve resource files",
+      "default": "**/*.resource.json",
+      "examples": ["**/*.db.json"]
+    },
+    "rewritesFilesGlob": {
+      "type": "string",
+      "description": "Glob applied to retrieve rewrites files",
+      "default": "**/*.rewrites.json",
+      "examples": ["**/*.proxy.json"]
+    }
+  }
+}
