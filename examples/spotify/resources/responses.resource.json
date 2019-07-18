@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../apps/server/tools/schemas/responses-configuration.json",
+  "responses": [
+    {
+      "path": "/v1/me",
+      "method": "GET",
+      "status": 401
+    }
+  ]
+}
