@@ -4,7 +4,7 @@ import {
   IsInt,
   Max,
   Min,
-  IsOptional,
+  IsOptional, IsJSON
 } from 'class-validator';
 
 export class ResponseConfig {
@@ -30,6 +30,7 @@ export class ResponseConfig {
   body?: any;
 
   @IsOptional()
+  @IsJSON()
   cookies?: { [key: string]: string };
 
   @IsInt()
@@ -39,6 +40,7 @@ export class ResponseConfig {
   delay?: number;
 
   @IsOptional()
+  @IsJSON()
   headers?: { [key: string]: string };
 
   @IsString()

@@ -5,12 +5,12 @@ import {
   NestModule,
   MiddlewareConsumer,
 } from '@nestjs/common';
-import { ResponsesConfigService } from '../services/response-config.service';
 import { ResponseMiddleware } from '../middlewares/request-catcher.middleware';
 import { ResponsesConfigurationsController } from '../controllers/responses-configurations.controller';
+import { ResponsesConfigurationsService } from '../services/responses-configurations.service';
 
 const MOCKLY_CONTROLLERS = [ResponsesConfigurationsController];
-const MOCKLY_PROVIDERS = [ResponsesConfigService];
+const MOCKLY_PROVIDERS = [ResponsesConfigurationsService];
 
 @Module({})
 export class MocklyModule implements NestModule {

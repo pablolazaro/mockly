@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Patch, Body, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Param, Patch, Body, NotFoundException, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ResponseConfig } from '../models';
 import { ResponsesConfigurationsService } from '../services/responses-configurations.service';
 
@@ -25,6 +25,7 @@ export class ResponsesConfigurationsController {
   }
 
   @Patch(':id')
+  @UsePipes(ValidationPipe)
   async update(@Param('id') id: string, @Body() config: ResponseConfig) {
     return await this.service.update(id, config);
   }
