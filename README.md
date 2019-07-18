@@ -1,5 +1,6 @@
 ![CircleCI](https://img.shields.io/circleci/build/github/pablolazaro/mockly.svg?token=3e0293b00e6875dbf3f4e82f976708e75e35b556)
 [![codecov](https://codecov.io/gh/pablolazaro/mockly/branch/milestone%2Falpha-1/graph/badge.svg?token=IALG9303GD)](https://codecov.io/gh/pablolazaro/mockly)
+[![Maintainability](https://api.codeclimate.com/v1/badges/b3481e1bd6d1fd4c1d85/maintainability)](https://codeclimate.com/github/pablolazaro/mockly/maintainability)
 
 # Mockly
 

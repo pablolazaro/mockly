@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { ResponseConfig } from '../models/response-config';
 import { DatabaseRegistry } from './database-registry.service';
 
 @Injectable()
-export class ResponsesConfigService {
+export class ResponsesConfigurationsService {
   private db: PouchDB.Database<ResponseConfig>;
 
   constructor(private readonly registry: DatabaseRegistry) {
@@ -15,17 +15,17 @@ export class ResponsesConfigService {
     > {
     const result = await this.db.allDocs({ include_docs: true });
 
-    if (result.total_rows === 0) {
-      return [];
-    } else {
-      return result.rows.map(row => row.doc);
-    }
+    return result.rows.map(row => row.doc);
   }
 
   async get(
     id: string,
   ): Promise<PouchDB.Core.ExistingDocument<ResponseConfig>> {
-    return await this.db.get(id);
+    try {
+      return await this.db.get(id);
+    } catch (e) {
+      throw new NotFoundException();
+    }
   }
 
   async update(id: string, doc: ResponseConfig) {
@@ -36,7 +36,7 @@ export class ResponsesConfigService {
     if (result.ok) {
       return await this.get(result.id);
     } else {
-      throw new Error('Error in update');
+      throw new InternalServerErrorException();
     }
   }
 }

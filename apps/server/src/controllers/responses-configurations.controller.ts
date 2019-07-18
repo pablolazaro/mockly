@@ -1,10 +1,10 @@
-import { Controller, Get, Param, Patch, Body } from '@nestjs/common';
-import { ResponsesConfigService } from '../services/response-config.service';
+import { Controller, Get, Param, Patch, Body, NotFoundException } from '@nestjs/common';
 import { ResponseConfig } from '../models';
+import { ResponsesConfigurationsService } from '../services/responses-configurations.service';
 
 @Controller('responses')
-export class ResponsesConfigController {
-  constructor(private readonly service: ResponsesConfigService) {}
+export class ResponsesConfigurationsController {
+  constructor(private readonly service: ResponsesConfigurationsService) {}
 
   @Get()
   async all(): Promise<
@@ -17,7 +17,11 @@ export class ResponsesConfigController {
   async get(@Param('id') id: string) {
     const doc = await this.service.get(id);
 
-    return doc ? doc : 404;
+    if (doc !== null && doc !== undefined) {
+      return doc;
+    } else {
+      throw new NotFoundException();
+    }
   }
 
   @Patch(':id')

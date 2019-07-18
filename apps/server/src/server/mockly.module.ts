@@ -6,10 +6,10 @@ import {
   MiddlewareConsumer,
 } from '@nestjs/common';
 import { ResponsesConfigService } from '../services/response-config.service';
-import { ResponsesConfigController } from '../controllers/response-config.controller';
 import { ResponseMiddleware } from '../middlewares/request-catcher.middleware';
+import { ResponsesConfigurationsController } from '../controllers/responses-configurations.controller';
 
-const MOCKLY_CONTROLLERS = [ResponsesConfigController];
+const MOCKLY_CONTROLLERS = [ResponsesConfigurationsController];
 const MOCKLY_PROVIDERS = [ResponsesConfigService];
 
 @Module({})
