@@ -5,23 +5,29 @@ import request from 'supertest';
 import { createResourceDatabase } from '../utils';
 
 describe('EphimeralResourceController (e2e)', () => {
-
   let app;
   let db;
 
   beforeEach(async () => {
-    if (db) { await db.destroy() }
+    if (db) {
+      await db.destroy();
+    }
 
     db = createResourceDatabase('cats');
 
-    await db.bulkDocs([{ id: '1', name: 'Kitty', color: 'brown'}, { id: '2', name: 'Pitty', color: 'black'}]);
+    await db.bulkDocs([
+      { id: '1', name: 'Kitty', color: 'brown' },
+      { id: '2', name: 'Pitty', color: 'black' }
+    ]);
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
       controllers: [ResourceControllerFactory.createController('cats')],
-      providers: [{
-        provide: DatabaseRegistry,
-        useValue: new DatabaseRegistry(new Map().set('cats', db))
-      }]
+      providers: [
+        {
+          provide: DatabaseRegistry,
+          useValue: new DatabaseRegistry(new Map().set('cats', db))
+        }
+      ]
     }).compile();
 
     app = moduleFixture.createNestApplication();
@@ -30,21 +36,24 @@ describe('EphimeralResourceController (e2e)', () => {
   });
 
   it('should get resources', async () => {
-    const response = await request(app.getHttpServer()).get('/cats').expect(200);
+    const response = await request(app.getHttpServer())
+      .get('/cats')
+      .expect(200);
     const data = JSON.parse(response.text);
     expect(data).toBeDefined();
     expect(data).toHaveLength(2);
   });
 
   it('should get a resource', async () => {
-    const response = await request(app.getHttpServer()).get('/cats/1').expect(200);
+    const response = await request(app.getHttpServer())
+      .get('/cats/1')
+      .expect(200);
     const data = JSON.parse(response.text);
     expect(data).toBeDefined();
     expect(data.id).toBe('1');
   });
 
-
-  it('should create a resource', async() => {
+  it('should create a resource', async () => {
     const response = await request(app.getHttpServer())
       .post('/cats')
       .send({ name: 'Holy', color: 'white' })
@@ -56,7 +65,7 @@ describe('EphimeralResourceController (e2e)', () => {
     expect(data.id).toBeDefined();
   });
 
-  it('should update a resource', async() => {
+  it('should update a resource', async () => {
     const response = await request(app.getHttpServer())
       .put('/cats/1')
       .send({ id: '1', name: 'Kitty', color: 'red' })
@@ -68,7 +77,7 @@ describe('EphimeralResourceController (e2e)', () => {
     expect(data.color).toBe('red');
   });
 
-  it('should delete a resource', async() => {
+  it('should delete a resource', async () => {
     await request(app.getHttpServer())
       .delete('/cats/1')
       .expect(204);
@@ -92,7 +101,7 @@ describe('EphimeralResourceController (e2e)', () => {
       .expect(404);
   });
 
-  xit('should return 400 when trying to create or update a resource with an invalid body', async() => {
+  xit('should return 400 when trying to create or update a resource with an invalid body', async () => {
     await request(app.getHttpServer())
       .post('/cats')
       .send()
@@ -103,5 +112,4 @@ describe('EphimeralResourceController (e2e)', () => {
       .send()
       .expect(400);
   });
-
 });

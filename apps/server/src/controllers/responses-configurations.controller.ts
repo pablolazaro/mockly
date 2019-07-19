@@ -1,4 +1,13 @@
-import { Controller, Get, Param, Patch, Body, NotFoundException, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Body,
+  NotFoundException,
+  UsePipes,
+  ValidationPipe
+} from '@nestjs/common';
 import { ResponseConfig } from '../models';
 import { ResponsesConfigurationsService } from '../services/responses-configurations.service';
 
@@ -7,9 +16,7 @@ export class ResponsesConfigurationsController {
   constructor(private readonly service: ResponsesConfigurationsService) {}
 
   @Get()
-  async all(): Promise<
-    Array<PouchDB.Core.ExistingDocument<ResponseConfig>>
-    > {
+  async all(): Promise<Array<PouchDB.Core.ExistingDocument<ResponseConfig>>> {
     return await this.service.all();
   }
 

@@ -4,12 +4,10 @@
 
 # Mockly
 
-> Work in progress 
+> Work in progress
 
-Mockly is highly configurable mocking server focused on break the dependency between your Front End 
-applications and the HTTP services that they consume at development time. No more time wasted waiting 
-the server status or services availability. You will have your mocking server available in a breeze just 
-creating a few files, control how you want the services to behave applying delays or returning different 
+Mockly is highly configurable mocking server focused on break the dependency between your Front End
+applications and the HTTP services that they consume at development time. No more time wasted waiting
+the server status or services availability. You will have your mocking server available in a breeze just
+creating a few files, control how you want the services to behave applying delays or returning different
 HTTP status codes.
-
-

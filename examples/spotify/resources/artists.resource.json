@@ -47,12 +47,7 @@
         "href": null,
         "total": 458007
       },
-      "genres": [
-        "alternative dance",
-        "dance-punk",
-        "indietronica",
-        "new rave"
-      ],
+      "genres": ["alternative dance", "dance-punk", "indietronica", "new rave"],
       "href": "https://api.spotify.com/v1/artists/57dN52uHvrHOxijzpIgu3E",
       "id": "57dN52uHvrHOxijzpIgu3E",
       "images": [
@@ -90,11 +85,7 @@
         "href": null,
         "total": 14144202
       },
-      "genres": [
-        "big room",
-        "edm",
-        "pop"
-      ],
+      "genres": ["big room", "edm", "pop"],
       "href": "https://api.spotify.com/v1/artists/1vCWHaC5f2uS3yhpwWbIA6",
       "id": "1vCWHaC5f2uS3yhpwWbIA6",
       "images": [

@@ -4,12 +4,13 @@ import { DatabaseRegistry } from '../services/database-registry.service';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 describe('ResourceController', () => {
-
   let db: PouchDB.Database;
   let controller: ResourceController<any>;
 
   beforeEach(async () => {
-    if (db) { await db.destroy();}
+    if (db) {
+      await db.destroy();
+    }
     db = createResourceDatabase('cars');
     const map = new Map();
     map.set('cars', db);
@@ -29,7 +30,7 @@ describe('ResourceController', () => {
   });
 
   it('should create a new resource', async () => {
-    const result = await controller.create({ name: 'Kitty', color: 'brown'});
+    const result = await controller.create({ name: 'Kitty', color: 'brown' });
     expect(result).toBeDefined();
     expect(result.id).toBeDefined();
     expect(result.name).toBe('Kitty');
@@ -37,8 +38,11 @@ describe('ResourceController', () => {
   });
 
   it('should update an existing resource', async () => {
-    const resource = await controller.create({ name: 'Kitty', color: 'brown'});
-    const result = await controller.update(resource.id, { ...resource, color: 'black' });
+    const resource = await controller.create({ name: 'Kitty', color: 'brown' });
+    const result = await controller.update(resource.id, {
+      ...resource,
+      color: 'black'
+    });
 
     expect(result).toBeDefined();
     expect(result.id).toBe(resource.id);
@@ -47,7 +51,7 @@ describe('ResourceController', () => {
   });
 
   it('should get an existing resource', async () => {
-    const resource = await controller.create({ name: 'Kitty', color: 'brown'});
+    const resource = await controller.create({ name: 'Kitty', color: 'brown' });
     const result = await controller.getOne(resource.id);
 
     expect(result).toBeDefined();
@@ -56,9 +60,9 @@ describe('ResourceController', () => {
     expect(result.color).toBe(resource.color);
   });
 
-  it('should get all resources', async() => {
-    await controller.create({ name: 'Kitty', color: 'brown'});
-    await controller.create({ name: 'Pippy', color: 'black'});
+  it('should get all resources', async () => {
+    await controller.create({ name: 'Kitty', color: 'brown' });
+    await controller.create({ name: 'Pippy', color: 'black' });
 
     const all = await controller.getAll();
 
@@ -66,13 +70,14 @@ describe('ResourceController', () => {
   });
 
   it('should delete an existing resource', async () => {
-    const resource = await controller.create({ name: 'Kitty', color: 'brown'});
+    const resource = await controller.create({ name: 'Kitty', color: 'brown' });
 
     const response = await controller.delete(resource.id);
 
     expect(response).toBeUndefined();
-    await expect(controller.getOne(resource.id)).rejects.toThrow(NotFoundException);
-
+    await expect(controller.getOne(resource.id)).rejects.toThrow(
+      NotFoundException
+    );
   });
 
   it('should throw an error when trying to create an invalid resource', async () => {
@@ -80,14 +85,20 @@ describe('ResourceController', () => {
   });
 
   it('should throw an error when trying to update an invalid resource', async () => {
-    await expect(controller.update('1', 1)).rejects.toThrow(BadRequestException);
+    await expect(controller.update('1', 1)).rejects.toThrow(
+      BadRequestException
+    );
   });
 
   it('should throw an error when getting an unexisting resource', async () => {
-    await expect(controller.getOne('fakeid')).rejects.toThrow(NotFoundException);
+    await expect(controller.getOne('fakeid')).rejects.toThrow(
+      NotFoundException
+    );
   });
 
   it('should throw an error when deleting an unexisting resource', async () => {
-    await expect(controller.delete('fakeid')).rejects.toThrow(NotFoundException);
+    await expect(controller.delete('fakeid')).rejects.toThrow(
+      NotFoundException
+    );
   });
 });

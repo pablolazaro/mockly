@@ -9,15 +9,21 @@
         "type": "object",
         "properties": {
           "body": {
-            "oneOf": [{
-              "type": "object"
-            }, {
-              "type": "string"
-            }],
+            "oneOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ],
             "description": "Response body",
-            "examples": [{
-              "result": "ok"
-            }, "ok"]
+            "examples": [
+              {
+                "result": "ok"
+              },
+              "ok"
+            ]
           },
           "cookies": {
             "type": "object",

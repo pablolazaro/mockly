@@ -4,16 +4,17 @@ import { DataController } from './data.controller';
 import { NotFoundException } from '@nestjs/common';
 
 describe('DataController', () => {
-
   let db: PouchDB.Database;
   let controller: DataController<any>;
   let map: Map<string, PouchDB.Database>;
 
   beforeEach(async () => {
-    if (db) { await db.destroy();}
+    if (db) {
+      await db.destroy();
+    }
     db = createResourceDatabase('data');
 
-    await db.bulkDocs([{ name: 'status', value: { ok: true }}]);
+    await db.bulkDocs([{ name: 'status', value: { ok: true } }]);
 
     map = new Map();
     map.set('data', db);
@@ -33,10 +34,12 @@ describe('DataController', () => {
   });
 
   it('should throw exception if data does not exists', async () => {
-    const fakeController = new DataController(new DatabaseRegistry(map), 'fake');
+    const fakeController = new DataController(
+      new DatabaseRegistry(map),
+      'fake'
+    );
 
     expect(fakeController.getData()).rejects.toThrow(NotFoundException);
     expect(fakeController.postData()).rejects.toThrow(NotFoundException);
   });
-
 });

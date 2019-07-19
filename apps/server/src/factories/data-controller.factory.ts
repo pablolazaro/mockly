@@ -9,18 +9,17 @@ export class DataControllerFactory {
    * @param resourceName
    */
   static createController(resourceName: string, prefix: string = ''): any {
-
     @Controller(appendPrefix(resourceName, prefix))
     class EphimeralDataController extends DataController<any> {
-      constructor (registry: DatabaseRegistry) { super(registry, resourceName); }
+      constructor(registry: DatabaseRegistry) {
+        super(registry, resourceName);
+      }
     }
 
     Object.defineProperty(EphimeralDataController, 'name', {
-      value: `Mockly${capitalizeFirstLetter(resourceName)}Controller`,
+      value: `Mockly${capitalizeFirstLetter(resourceName)}Controller`
     });
 
     return EphimeralDataController;
-
   }
-
 }

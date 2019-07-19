@@ -7,19 +7,22 @@ import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 
 describe('ResponsesConfigurationsController', () => {
-
   let db: PouchDB.Database;
   let controller: ResponsesConfigurationsController;
 
   beforeEach(async () => {
-    if (db) { await db.destroy();}
+    if (db) {
+      await db.destroy();
+    }
     db = createResourceDatabase('responses');
 
     await db.bulkDocs([{ _id: '12345', path: '/cats', status: 500 }]);
 
     const map = new Map();
     map.set('responses', db);
-    controller = new ResponsesConfigurationsController(new ResponsesConfigurationsService(new DatabaseRegistry(map)));
+    controller = new ResponsesConfigurationsController(
+      new ResponsesConfigurationsService(new DatabaseRegistry(map))
+    );
   });
 
   it('should instantiate', () => {
@@ -43,11 +46,15 @@ describe('ResponsesConfigurationsController', () => {
     const config = await controller.get('12345');
 
     expect(config).toBeDefined();
-    expect(config._id).toBe('12345')
+    expect(config._id).toBe('12345');
   });
 
   it('should update one configuration', async () => {
-    const config = await controller.update('12345', { method: 'GET', path: '/cats', status: 401 });
+    const config = await controller.update('12345', {
+      method: 'GET',
+      path: '/cats',
+      status: 401
+    });
 
     expect(config).toBeDefined();
     expect(config._id).toBe('12345');
@@ -59,20 +66,25 @@ describe('ResponsesConfigurationsController', () => {
   });
 
   it('should throw error when trying to update a nonexisting configuration', async () => {
-    expect(controller.update('fakeid', {} as any)).rejects.toThrow(NotFoundException);
+    expect(controller.update('fakeid', {} as any)).rejects.toThrow(
+      NotFoundException
+    );
   });
 });
-
 
 describe('ResponsesConfigurationsController (e2e)', () => {
   let app;
   let db: PouchDB.Database;
 
   beforeEach(async () => {
-    if (db) { await db.destroy();}
+    if (db) {
+      await db.destroy();
+    }
     db = createResourceDatabase('responses');
 
-    await db.bulkDocs([{ _id: '12345', path: '/cats', method: 'GET', status: 500 }]);
+    await db.bulkDocs([
+      { _id: '12345', path: '/cats', method: 'GET', status: 500 }
+    ]);
 
     const map = new Map();
     map.set('responses', db);
@@ -96,7 +108,9 @@ describe('ResponsesConfigurationsController (e2e)', () => {
   });
 
   it('should get all configurations', async () => {
-    const response = await request(app.getHttpServer()).get('/responses').expect(200);
+    const response = await request(app.getHttpServer())
+      .get('/responses')
+      .expect(200);
 
     const data = JSON.parse(response.text);
     expect(data).toBeDefined();
@@ -104,14 +118,15 @@ describe('ResponsesConfigurationsController (e2e)', () => {
   });
 
   it('should get a response configuration', async () => {
-    const response = await request(app.getHttpServer()).get('/responses/12345').expect(200);
+    const response = await request(app.getHttpServer())
+      .get('/responses/12345')
+      .expect(200);
     const data = JSON.parse(response.text);
     expect(data).toBeDefined();
     expect(data._id).toBe('12345');
   });
 
-
-  it('should update a configuration', async() => {
+  it('should update a configuration', async () => {
     const response = await request(app.getHttpServer())
       .patch('/responses/12345')
       .send({ _id: '12345', path: '/cats', method: 'GET', status: 401 })
@@ -152,6 +167,4 @@ describe('ResponsesConfigurationsController (e2e)', () => {
       .send({ delay: 'text' })
       .expect(400);
   });
-
-
 });

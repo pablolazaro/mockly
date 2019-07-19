@@ -3,7 +3,7 @@ import {
   Provider,
   DynamicModule,
   NestModule,
-  MiddlewareConsumer,
+  MiddlewareConsumer
 } from '@nestjs/common';
 import { ResponseMiddleware } from '../middlewares/request-catcher.middleware';
 import { ResponsesConfigurationsController } from '../controllers/responses-configurations.controller';
@@ -14,12 +14,11 @@ const MOCKLY_PROVIDERS = [ResponsesConfigurationsService];
 
 @Module({})
 export class MocklyModule implements NestModule {
-
   static with(controllers: any[], providers: Provider[]): DynamicModule {
     return {
       module: MocklyModule,
       controllers: [...MOCKLY_CONTROLLERS, ...controllers],
-      providers: [...MOCKLY_PROVIDERS, ...providers],
+      providers: [...MOCKLY_PROVIDERS, ...providers]
     };
   }
 

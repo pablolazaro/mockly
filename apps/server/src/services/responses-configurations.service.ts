@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException
+} from '@nestjs/common';
 import { ResponseConfig } from '../models/response-config';
 import { DatabaseRegistry } from './database-registry.service';
 
@@ -10,16 +14,14 @@ export class ResponsesConfigurationsService {
     this.db = registry.get('responses');
   }
 
-  async all(): Promise<
-    Array<PouchDB.Core.ExistingDocument<ResponseConfig>>
-    > {
+  async all(): Promise<Array<PouchDB.Core.ExistingDocument<ResponseConfig>>> {
     const result = await this.db.allDocs({ include_docs: true });
 
     return result.rows.map(row => row.doc);
   }
 
   async get(
-    id: string,
+    id: string
   ): Promise<PouchDB.Core.ExistingDocument<ResponseConfig>> {
     try {
       return await this.db.get(id);

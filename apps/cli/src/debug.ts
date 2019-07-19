@@ -1,9 +1,11 @@
 import { MocklyCli } from './index';
 
-
-async function start () {
+async function start() {
   const mockly = new MocklyCli([], undefined);
-  mockly.run().then(() => {}).catch(error => console.log(error))
+  mockly
+    .run()
+    .then(() => {})
+    .catch(error => console.log(error));
 }
 
-start()
+start();

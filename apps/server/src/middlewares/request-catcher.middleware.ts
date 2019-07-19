@@ -17,8 +17,8 @@ export class ResponseMiddleware implements NestMiddleware {
     const result = await this.db.find({
       selector: {
         path: { $eq: baseUrl },
-        method: { $eq: method },
-      },
+        method: { $eq: method }
+      }
     });
 
     if (result.docs.length !== 0) {

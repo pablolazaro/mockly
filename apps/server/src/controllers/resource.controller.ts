@@ -2,7 +2,8 @@ import {
   BadRequestException,
   Body,
   Delete,
-  Get, HttpCode,
+  Get,
+  HttpCode,
   InternalServerErrorException,
   NotFoundException,
   Param,
@@ -13,15 +14,17 @@ import { DatabaseRegistry } from '../services/database-registry.service';
 import { getRandomId } from '../utils';
 
 export class ResourceController<T> {
-
   private readonly _db: PouchDB.Database;
 
-  constructor (readonly _registry: DatabaseRegistry, readonly _resourceName: string) {
+  constructor(
+    readonly _registry: DatabaseRegistry,
+    readonly _resourceName: string
+  ) {
     this._db = this._registry.get(this._resourceName);
   }
 
   @Get()
-  async getAll () {
+  async getAll() {
     const docs = await this._db.allDocs({ include_docs: true });
 
     return docs.rows.map(row => row.doc);
@@ -34,7 +37,7 @@ export class ResourceController<T> {
     }
 
     const id = getRandomId();
-    const result = await this._db.post({...body, id});
+    const result = await this._db.post({ ...body, id });
 
     if (result.ok) {
       return await this._getResource(id);
@@ -44,7 +47,7 @@ export class ResourceController<T> {
   }
 
   @Get(':id')
-  async getOne (@Param('id') id: string) {
+  async getOne(@Param('id') id: string) {
     const resource = await this._getResource(id);
 
     if (resource !== null && resource !== undefined) {
@@ -55,7 +58,10 @@ export class ResourceController<T> {
   }
 
   @Put(':id')
-  async update (@Param('id') id: string, @Body() body: any): Promise<PouchDB.Core.ExistingDocument<T>>{
+  async update(
+    @Param('id') id: string,
+    @Body() body: any
+  ): Promise<PouchDB.Core.ExistingDocument<T>> {
     if (typeof body !== 'object') {
       throw new BadRequestException();
     }
@@ -68,13 +74,11 @@ export class ResourceController<T> {
     } else {
       throw new NotFoundException();
     }
-
   }
-
 
   @HttpCode(204)
   @Delete(':id')
-  async delete (@Param('id') id: string) {
+  async delete(@Param('id') id: string) {
     const resource = await this._getResource(id);
 
     if (resource !== null && resource !== undefined) {
@@ -88,14 +92,15 @@ export class ResourceController<T> {
     } else {
       throw new NotFoundException();
     }
-
   }
 
-  private async _getResource (id: string): Promise<PouchDB.Core.ExistingDocument<T>> {
+  private async _getResource(
+    id: string
+  ): Promise<PouchDB.Core.ExistingDocument<T>> {
     const result = await this._db.find({
       selector: {
-        id: { $eq: id },
-      },
+        id: { $eq: id }
+      }
     });
 
     return result.docs[0] as PouchDB.Core.ExistingDocument<T>;

@@ -1,9 +1,11 @@
-import { getConfiguration, getConfigurationValidationErrors } from './configuration';
+import {
+  getConfiguration,
+  getConfigurationValidationErrors
+} from './configuration';
 import { DEFAULT_CONFIG } from '../constants';
 import { MocklyConfig } from '../models';
 
 describe('Configuration utils', () => {
-
   it('should get default configuration', async () => {
     const config = await getConfiguration();
 
@@ -11,7 +13,9 @@ describe('Configuration utils', () => {
     expect(config.port).toEqual(DEFAULT_CONFIG.port);
     expect(config.prefix).toEqual(DEFAULT_CONFIG.prefix);
     expect(config.resourceFilesGlob).toEqual(DEFAULT_CONFIG.resourceFilesGlob);
-    expect(config.responsesConfigGlob).toEqual(DEFAULT_CONFIG.responsesConfigGlob);
+    expect(config.responsesConfigGlob).toEqual(
+      DEFAULT_CONFIG.responsesConfigGlob
+    );
     expect(config.rewritesFilesGlob).toEqual(DEFAULT_CONFIG.rewritesFilesGlob);
   });
 
@@ -23,10 +27,9 @@ describe('Configuration utils', () => {
   });
 
   it('should validate an invalid configuration', async () => {
-    const config = new MocklyConfig(    700, 3000, 1 as any, null, null, null);
+    const config = new MocklyConfig(700, 3000, 1 as any, null, null, null);
     const errors = await getConfigurationValidationErrors(config);
 
-    expect(errors).toHaveLength(1)
+    expect(errors).toHaveLength(1);
   });
-
 });

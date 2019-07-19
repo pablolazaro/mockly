@@ -4,7 +4,8 @@ import {
   IsInt,
   Max,
   Min,
-  IsOptional, IsJSON
+  IsOptional,
+  IsJSON
 } from 'class-validator';
 
 export class ResponseConfig {
@@ -15,7 +16,7 @@ export class ResponseConfig {
     headers: { [key: string]: string },
     method: string,
     path: string,
-    status: number,
+    status: number
   ) {
     this.body = body;
     this.cookies = cookies;
