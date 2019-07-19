@@ -19,35 +19,31 @@ export async function getResourceFiles(
   ]);
 }
 
-export async function buildDefinitions(
-  files: string[]
-): Promise<ResourceDefinition[]> {
+export async function getResourceFilesContent(files: string[]) {
   const readFilesPromises = files.map(file =>
     promisifiedReadFile(file, 'utf-8')
   );
 
-  try {
-    const filesContent = await Promise.all(readFilesPromises);
-    const filesContentAsJson = filesContent.map(content => JSON.parse(content));
+  const filesContent = await Promise.all(readFilesPromises);
+  return filesContent.map(content => JSON.parse(content));
+}
 
-    return filesContentAsJson.reduce((arr, content) => {
-      const resourceCollectionDefinitions = Object.keys(content)
-        .filter(key => key !== '$schema')
-        .map(key => {
-          const resources = content[key];
+export function getDefinitions(contents: any[]): ResourceDefinition[] {
+  return contents.reduce((arr, content) => {
+    const resourceCollectionDefinitions = Object.keys(content)
+      .filter(key => key !== '$schema')
+      .map(key => {
+        const resources = content[key];
 
-          if (isRestResource(resources)) {
-            return { name: key, resources, type: ResourceType.REST_RESOURCE };
-          } else {
-            return { name: key, resources, type: ResourceType.JSON_DATA };
-          }
-        });
+        if (isRestResource(resources)) {
+          return { name: key, resources, type: ResourceType.REST_RESOURCE };
+        } else {
+          return { name: key, resources, type: ResourceType.JSON_DATA };
+        }
+      });
 
-      return [...arr, ...resourceCollectionDefinitions];
-    }, []);
-  } catch (error) {
-    // TODO Throw error and catch it later
-  }
+    return [...arr, ...resourceCollectionDefinitions];
+  }, []);
 }
 
 export async function getResourcesAndDataDefinitions(
@@ -55,8 +51,9 @@ export async function getResourcesAndDataDefinitions(
   currentWorkingDirectory = cwd()
 ) {
   const files = await getResourceFiles(glob, currentWorkingDirectory);
+  const filesContentAsJson = await getResourceFilesContent(files);
 
-  return await buildDefinitions(files);
+  return await getDefinitions(filesContentAsJson);
 }
 
 export async function createAndHydrateResourcesDatabases(

@@ -1,7 +1,11 @@
 import uniqid from 'uniqid';
 
 export function capitalizeFirstLetter(text: string) {
-  return text.charAt(0).toUpperCase() + text.slice(1);
+  if (typeof text === 'string') {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  } else {
+    throw new Error('Can not capitalize a non string value!');
+  }
 }
 
 export function appendPrefix(name: string, prefix: string) {

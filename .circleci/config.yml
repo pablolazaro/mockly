@@ -37,7 +37,7 @@ jobs:
 
       # checks linting
       - run: yarn lint
-    
+
       # run tests!
       - run: yarn test
       - store_test_results:
