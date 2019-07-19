@@ -1,18 +1,20 @@
 import { Command } from '@oclif/command';
 import {
+  createAndHydrateJsonDatabase,
+  createAndHydrateResourcesDatabases,
+  createAndHydrateResponsesConfigDatabase,
   getConfiguration,
   getConfigurationValidationErrors,
-  getResourceDefinitions,
-  getResourceFiles,
-  MocklyConfig,
-  ResourceType,
-  createAndHydrateResourcesDatabases,
-  createAndHydrateJsonDatabase,
+  getControllers,
+  getResourcesAndDataDefinitions,
   getResponsesConfiguration,
-  ResponseConfig,
   getResponsesConfigurationErrors,
-  createAndHydrateResponsesConfigDatabase, getDataControllers, start, getResourcesControllers,
-  getRewrites
+  getRewrites,
+  MocklyConfig,
+  ResourceDefinition,
+  ResourceType,
+  ResponseConfig,
+  start
 } from '@mockly/server';
 
 const CFonts = require('cfonts');
@@ -23,48 +25,43 @@ export class MocklyCli extends Command {
   async run() {
     this.printTitle('Mockly');
 
-    this.log('Welcome to Mockly! You will have your favourite mock server running soon!\n');
+    this.log(
+      'Welcome to Mockly! You will have your favourite mock server running soon!\n'
+    );
 
     const config = await this.getAndValidateConfiguration();
 
-    const responsesConfig = await this.getAndValidateResponsesConfiguration(config.responsesConfigGlob);
+    const responsesConfig = await this.getAndValidateResponsesConfiguration(
+      config.responsesConfigGlob
+    );
 
-    const resourcesFiles = await getResourceFiles(config.resourceFilesGlob);
     const rewrites = await getRewrites(config.rewritesFilesGlob);
 
-    const resourcesDefinitions = await getResourceDefinitions(resourcesFiles);
+    const definitions = await getResourcesAndDataDefinitions(
+      config.resourceFilesGlob
+    );
 
-    const restResourcesDefinitions = resourcesDefinitions.filter(def => def.type === ResourceType.REST_RESOURCE);
-    const jsonResponseDefinitions = resourcesDefinitions.filter(def => def.type === ResourceType.JSON_RESPONSE);
+    const dbsMap = await this.getDatabasesMap(definitions, responsesConfig);
 
-    const resourcesDbsMap = await createAndHydrateResourcesDatabases(restResourcesDefinitions);
-    const jsonDataDb = await createAndHydrateJsonDatabase(jsonResponseDefinitions);
-    const responsesConfigDb = await createAndHydrateResponsesConfigDatabase(responsesConfig);
+    const controllers = getControllers(definitions);
 
-    resourcesDbsMap.set('data', jsonDataDb);
-    resourcesDbsMap.set('responses', responsesConfigDb);
-
-    const dataControllers = getDataControllers(jsonResponseDefinitions, config.prefix);
-    const resourcesControllers = getResourcesControllers(restResourcesDefinitions, config.prefix);
-
-    return await start([...resourcesControllers, ...dataControllers ], resourcesDbsMap, config, rewrites);
+    return await start(controllers, dbsMap, config, rewrites);
   }
 
-
-  printTitle (title: string) {
+  printTitle(title: string) {
     CFonts.say(title, {
-      font: 'block',              // define the font face
-      align: 'left',              // define text alignment
-      colors: ['system'],         // define all colors
-      background: 'transparent',  // define the background color, you can also use `backgroundColor` here as key
-      letterSpacing: 1,           // define letter spacing
-      lineHeight: 1,              // define the line height
-      space: true,                // define if the output text should have empty lines on top and on the bottom
-      maxLength: '0',             // define how many character can be on one line
+      font: 'block', // define the font face
+      align: 'left', // define text alignment
+      colors: ['system'], // define all colors
+      background: 'transparent', // define the background color, you can also use `backgroundColor` here as key
+      letterSpacing: 1, // define letter spacing
+      lineHeight: 1, // define the line height
+      space: true, // define if the output text should have empty lines on top and on the bottom
+      maxLength: '0' // define how many character can be on one line
     });
-  };
+  }
 
-  async getAndValidateConfiguration (): Promise<MocklyConfig> {
+  async getAndValidateConfiguration(): Promise<MocklyConfig> {
     const config = await getConfiguration();
     const errors = await getConfigurationValidationErrors(config);
 
@@ -76,7 +73,9 @@ export class MocklyCli extends Command {
     }
   }
 
-  async getAndValidateResponsesConfiguration (glob: string): Promise<ResponseConfig[]> {
+  async getAndValidateResponsesConfiguration(
+    glob: string
+  ): Promise<ResponseConfig[]> {
     const config = await getResponsesConfiguration(glob);
     const errors = await getResponsesConfigurationErrors(config);
 
@@ -86,5 +85,30 @@ export class MocklyCli extends Command {
       this.error('Invalid responses configuration file!');
       return config;
     }
+  }
+
+  async getDatabasesMap(
+    definitions: ResourceDefinition[],
+    responsesConfig: ResponseConfig[]
+  ): Promise<Map<string, PouchDB.Database>> {
+    const restResourcesDefinitions = definitions.filter(
+      def => def.type === ResourceType.REST_RESOURCE
+    );
+
+    const jsonDataDefinitions = definitions.filter(
+      def => def.type === ResourceType.JSON_DATA
+    );
+    const resourcesDbsMap = await createAndHydrateResourcesDatabases(
+      restResourcesDefinitions
+    );
+    const jsonDataDb = await createAndHydrateJsonDatabase(jsonDataDefinitions);
+    const responsesConfigDb = await createAndHydrateResponsesConfigDatabase(
+      responsesConfig
+    );
+
+    resourcesDbsMap.set('data', jsonDataDb);
+    resourcesDbsMap.set('responses', responsesConfigDb);
+
+    return resourcesDbsMap;
   }
 }

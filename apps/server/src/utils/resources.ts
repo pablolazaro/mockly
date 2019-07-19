@@ -7,8 +7,6 @@ import PouchDB from 'pouchdb';
 
 import find from 'pouchdb-find';
 import adapter from 'pouchdb-adapter-memory';
-import { Controller } from '@nestjs/common';
-import { DatabaseRegistry } from '../services/database-registry.service';
 import { ResourceControllerFactory } from '../factories/resource-controller.factory';
 import { DataControllerFactory } from '../factories/data-controller.factory';
 import uniqid from 'uniqid';
@@ -18,7 +16,7 @@ PouchDB.plugin(find);
 
 const promisifiedReadFile = promisify(readFile);
 
-export enum ResourceType { REST_RESOURCE, JSON_RESPONSE }
+export enum ResourceType { REST_RESOURCE, JSON_DATA }
 
 export interface ResourceDefinition {
   name: string;
@@ -33,7 +31,7 @@ export async function getResourceFiles(glob: string, currentWorkingDirectory = c
   ]);
 }
 
-export async function getResourceDefinitions(files: string[]): Promise<ResourceDefinition[]> {
+export async function buildDefinitions(files: string[]): Promise<ResourceDefinition[]> {
   const readFilesPromises = files.map(file => promisifiedReadFile(file, 'utf-8'));
 
   try {
@@ -49,7 +47,7 @@ export async function getResourceDefinitions(files: string[]): Promise<ResourceD
           if (isRestResource(resources)) {
             return { name: key, resources, type: ResourceType.REST_RESOURCE};
           } else {
-            return { name: key, resources, type: ResourceType.JSON_RESPONSE};
+            return { name: key, resources, type: ResourceType.JSON_DATA};
           }
         });
 
@@ -59,6 +57,12 @@ export async function getResourceDefinitions(files: string[]): Promise<ResourceD
     // TODO Throw error and catch it later
   }
 
+}
+
+export async function getResourcesAndDataDefinitions (glob: string, currentWorkingDirectory = cwd()) {
+  const files = await getResourceFiles(glob, currentWorkingDirectory);
+
+  return await buildDefinitions(files);
 }
 
 export async function createAndHydrateResourcesDatabases (resources: ResourceDefinition[]): Promise<Map<string, PouchDB.Database>> {
@@ -94,13 +98,7 @@ export async function createAndHydrateJsonDatabase (resources: ResourceDefinitio
   return db;
 }
 
-export function getDataControllers (resources: ResourceDefinition[], prefix = ''): any[] {
-  return resources.map(resource => DataControllerFactory.createController(resource.name, prefix));
-}
 
-export function getResourcesControllers (resources: ResourceDefinition[], prefix = ''): any[] {
-  return resources.map(resource => ResourceControllerFactory.createController(resource.name, prefix));
-}
 
 export function capitalizeFirstLetter(text: string) {
   return text.charAt(0).toUpperCase() + text.slice(1);
