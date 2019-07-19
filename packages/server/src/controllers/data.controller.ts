@@ -1,6 +1,13 @@
-import { Get, HttpCode, NotFoundException, Post } from '@nestjs/common';
+import { DelayInterceptor } from './../interceptors/delay.interceptor';
+import {
+  Get,
+  HttpCode,
+  NotFoundException,
+  Post,
+  UseInterceptors
+} from '@nestjs/common';
 import { DatabaseRegistry } from '../services/database-registry.service';
-
+@UseInterceptors(DelayInterceptor)
 export class DataController<T> {
   private readonly _db: PouchDB.Database;
 
