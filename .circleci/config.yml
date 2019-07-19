@@ -24,7 +24,7 @@ jobs:
       - run:
           name: Install Dependencies
           command: yarn install --frozen-lockfile
-        
+
       - save_cache:
           name: Save Yarn Package Cache
           key: yarn-packages-{{ checksum "yarn.lock" }}
@@ -40,9 +40,9 @@ jobs:
           path: reports
 
       - codecov/upload:
-          file: coverage/apps/server/coverage-final.json
+          file: coverage/packages/server/coverage-final.json
           token: ddd24a41-f4e2-4670-bf00-cdff16c2fea1
 
       - codecov/upload:
-          file: coverage/apps/cli/coverage-final.json
+          file: coverage/packages/cli/coverage-final.json
           token: ddd24a41-f4e2-4670-bf00-cdff16c2fea1
