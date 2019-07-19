@@ -1,5 +1,5 @@
 {
-  "$schema": "../../apps/server/tools/schemas/configuration.json",
+  "$schema": "../../packages/server/tools/schemas/configuration.json",
   "prefix": "/v1",
   "delay": 500
 }

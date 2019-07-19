@@ -6,14 +6,14 @@
     "ng": "ng",
     "start": "ng serve",
     "start:cli:debug": "nodemon --config nodemon-debug.json",
-    "start:cli": "ts-node -r tsconfig-paths/register --project apps/cli/tsconfig.json apps/cli/src/debug.ts",
+    "start:cli": "ts-node -r tsconfig-paths/register --project packages/cli/tsconfig.json packages/cli/src/debug.ts",
     "build": "ng build",
     "test": "ng test --passWithNoTests",
     "test:ci": "ng test -passWithNoTests",
     "lint": "nx lint && ng lint",
     "e2e": "ng e2e",
-    "build:cli": "tsc --project apps/cli/tsconfig.json",
-    "build:server": "tsc --project apps/server/tsconfig.json",
+    "build:cli": "tsc --project packages/cli/tsconfig.json",
+    "build:server": "tsc --project packages/server/tsconfig.json",
     "affected:apps": "nx affected:apps",
     "affected:libs": "nx affected:libs",
     "affected:build": "nx affected:build",
@@ -90,13 +90,11 @@
     "jest": "24.1.0",
     "jest-junit": "^6.4.0",
     "jest-preset-angular": "7.0.0",
+    "lerna": "^3.16.0",
     "prettier": "1.16.4",
     "ts-jest": "24.0.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
     "typescript": "~3.4.5"
-  },
-  "workspaces": [
-    "apps/*"
-  ]
+  }
 }

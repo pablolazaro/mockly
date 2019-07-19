@@ -2,7 +2,7 @@
   "watch": ["apps/**/*.ts"],
   "ext": "ts",
   "ignore": ["apps/**/*.spec.ts"],
-  "exec": "node --inspect-brk -r ts-node/register -r tsconfig-paths/register  apps/cli/src/debug.ts",
+  "exec": "node --inspect-brk -r ts-node/register -r tsconfig-paths/register  packages/cli/src/debug.ts",
   "env": {
     "TS_NODE_PROJECT": "apps/cli/tsconfig.json"
   }
