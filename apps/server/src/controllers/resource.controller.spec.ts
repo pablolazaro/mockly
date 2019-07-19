@@ -1,5 +1,5 @@
 import { ResourceController } from './resource.controller';
-import { createResourceDatabase } from '../utils';
+import { createDatabase } from '../utils';
 import { DatabaseRegistry } from '../services/database-registry.service';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 
@@ -11,7 +11,7 @@ describe('ResourceController', () => {
     if (db) {
       await db.destroy();
     }
-    db = createResourceDatabase('cars');
+    db = createDatabase('cars');
     const map = new Map();
     map.set('cars', db);
     controller = new ResourceController(new DatabaseRegistry(map), 'cars');

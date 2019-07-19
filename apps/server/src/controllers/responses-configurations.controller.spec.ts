@@ -1,4 +1,4 @@
-import { createResourceDatabase } from '../utils';
+import { createDatabase } from '../utils';
 import { DatabaseRegistry } from '../services/database-registry.service';
 import { ResponsesConfigurationsController } from './responses-configurations.controller';
 import { ResponsesConfigurationsService } from '../services/responses-configurations.service';
@@ -14,7 +14,7 @@ describe('ResponsesConfigurationsController', () => {
     if (db) {
       await db.destroy();
     }
-    db = createResourceDatabase('responses');
+    db = createDatabase('responses');
 
     await db.bulkDocs([{ _id: '12345', path: '/cats', status: 500 }]);
 
@@ -80,7 +80,7 @@ describe('ResponsesConfigurationsController (e2e)', () => {
     if (db) {
       await db.destroy();
     }
-    db = createResourceDatabase('responses');
+    db = createDatabase('responses');
 
     await db.bulkDocs([
       { _id: '12345', path: '/cats', method: 'GET', status: 500 }

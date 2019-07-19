@@ -1,4 +1,4 @@
-import { createResourceDatabase } from '../utils';
+import { createDatabase } from '../utils';
 import { DatabaseRegistry } from '../services/database-registry.service';
 import { DataController } from './data.controller';
 import { NotFoundException } from '@nestjs/common';
@@ -12,7 +12,7 @@ describe('DataController', () => {
     if (db) {
       await db.destroy();
     }
-    db = createResourceDatabase('data');
+    db = createDatabase('data');
 
     await db.bulkDocs([{ name: 'status', value: { ok: true } }]);
 

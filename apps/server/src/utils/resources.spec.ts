@@ -1,4 +1,4 @@
-import { appendPrefix } from './resources';
+import { appendPrefix } from './common';
 
 describe('Resources utils', () => {
   describe('appendPrefix', () => {

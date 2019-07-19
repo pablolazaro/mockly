@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ResourceControllerFactory } from '../factories/resource-controller.factory';
 import { DatabaseRegistry } from '../services/database-registry.service';
 import request from 'supertest';
-import { createResourceDatabase } from '../utils';
+import { createDatabase } from '../utils';
 
 describe('EphimeralResourceController (e2e)', () => {
   let app;
@@ -13,7 +13,7 @@ describe('EphimeralResourceController (e2e)', () => {
       await db.destroy();
     }
 
-    db = createResourceDatabase('cats');
+    db = createDatabase('cats');
 
     await db.bulkDocs([
       { id: '1', name: 'Kitty', color: 'brown' },

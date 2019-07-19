@@ -3,29 +3,11 @@ import { join } from 'path';
 import { cwd } from 'process';
 import { promisify } from 'util';
 import { readFile } from 'fs';
-import PouchDB from 'pouchdb';
-
-import find from 'pouchdb-find';
-import adapter from 'pouchdb-adapter-memory';
-import { ResourceControllerFactory } from '../factories/resource-controller.factory';
-import { DataControllerFactory } from '../factories/data-controller.factory';
-import uniqid from 'uniqid';
-
-PouchDB.plugin(adapter);
-PouchDB.plugin(find);
+import { ResourceDefinition } from '../models/resource-definition';
+import { ResourceType } from '../models/resource-type';
+import { createDatabase, hydrateDatabase } from './databases';
 
 const promisifiedReadFile = promisify(readFile);
-
-export enum ResourceType {
-  REST_RESOURCE,
-  JSON_DATA
-}
-
-export interface ResourceDefinition {
-  name: string;
-  resources: any;
-  type: ResourceType;
-}
 
 export async function getResourceFiles(
   glob: string,
@@ -80,7 +62,7 @@ export async function getResourcesAndDataDefinitions(
 export async function createAndHydrateResourcesDatabases(
   resources: ResourceDefinition[]
 ): Promise<Map<string, PouchDB.Database>> {
-  const dbs = resources.map(resource => createResourceDatabase(resource.name));
+  const dbs = resources.map(resource => createDatabase(resource.name));
 
   const hydratingPromises = dbs.map((db, index) =>
     hydrateDatabase(db, resources[index].resources)
@@ -89,14 +71,6 @@ export async function createAndHydrateResourcesDatabases(
   const result = await Promise.all(hydratingPromises);
 
   return dbs.reduce((map, db, i) => map.set(resources[i].name, db), new Map());
-}
-
-export function createResourceDatabase(name: string): PouchDB.Database {
-  return new PouchDB(name, { adapter: 'memory' });
-}
-
-export async function hydrateDatabase(db: PouchDB.Database, resources: any[]) {
-  return await db.bulkDocs(resources);
 }
 
 export function isRestResource(resources: any) {
@@ -111,7 +85,7 @@ export function isRestResource(resources: any) {
 export async function createAndHydrateJsonDatabase(
   resources: ResourceDefinition[]
 ): Promise<PouchDB.Database> {
-  const db = createResourceDatabase('data');
+  const db = createDatabase('data');
 
   const promises = resources.map(resource =>
     db.post({ name: resource.name, value: resource.resources })
@@ -120,20 +94,4 @@ export async function createAndHydrateJsonDatabase(
   await Promise.all(promises);
 
   return db;
-}
-
-export function capitalizeFirstLetter(text: string) {
-  return text.charAt(0).toUpperCase() + text.slice(1);
-}
-
-export function appendPrefix(name: string, prefix: string) {
-  if (prefix !== undefined && prefix !== null && prefix !== '') {
-    return prefix + (prefix.endsWith('/') ? '' : '/') + name;
-  } else {
-    return name;
-  }
-}
-
-export function getRandomId(): string {
-  return uniqid();
 }

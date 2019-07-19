@@ -3,10 +3,9 @@ import { join } from 'path';
 import globby from 'globby';
 import { promisify } from 'util';
 import { readFile } from 'fs';
-import { MocklyConfig } from '../models';
 import { validate, ValidationError } from 'class-validator';
 import { ResponseConfig } from '../models/response-config';
-import { createResourceDatabase, hydrateDatabase } from './resources';
+import { createDatabase, hydrateDatabase } from './databases';
 
 const promisifiedReadFile = promisify(readFile);
 
@@ -36,7 +35,7 @@ export async function getResponsesConfigurationErrors(
 export async function createAndHydrateResponsesConfigDatabase(
   configs: ResponseConfig[]
 ) {
-  const db = createResourceDatabase('responses');
+  const db = createDatabase('responses');
   await hydrateDatabase(db, configs);
   return db;
 }

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DatabaseRegistry } from '../services/database-registry.service';
 import request from 'supertest';
-import { createResourceDatabase } from '../utils';
+import { createDatabase } from '../utils';
 import { DataControllerFactory } from '../factories/data-controller.factory';
 
 describe('EphimeralDataController (e2e)', () => {
@@ -13,7 +13,7 @@ describe('EphimeralDataController (e2e)', () => {
       await db.destroy();
     }
 
-    db = createResourceDatabase('data');
+    db = createDatabase('data');
 
     await db.bulkDocs([{ name: 'status', value: { ok: true } }]);
 

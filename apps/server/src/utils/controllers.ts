@@ -1,6 +1,7 @@
 import { DataControllerFactory } from '../factories/data-controller.factory';
 import { ResourceControllerFactory } from '../factories/resource-controller.factory';
-import { ResourceDefinition, ResourceType } from './resources';
+import { ResourceType } from '../models/resource-type';
+import { ResourceDefinition } from '../models/resource-definition';
 
 export function getControllers(
   definitions: ResourceDefinition[],
