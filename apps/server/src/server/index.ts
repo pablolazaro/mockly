@@ -5,6 +5,7 @@ import { MocklyConfig } from '../models';
 import { ValidationPipe } from '@nestjs/common';
 
 import rewrite from 'express-urlrewrite';
+
 export async function start (controllers: any[], databasesMap: Map<string, PouchDB.Database>, config: MocklyConfig, rewrites: any) {
   const app = await NestFactory.create(
     MocklyModule.with(
@@ -17,8 +18,6 @@ export async function start (controllers: any[], databasesMap: Map<string, Pouch
   );
 
   Object.keys(rewrites).forEach(key => app.use(rewrite(key, rewrites[key])));
-
-  // app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(config.port);
 }
