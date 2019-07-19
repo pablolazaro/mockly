@@ -1,6 +1,7 @@
 ![CircleCI](https://img.shields.io/circleci/build/github/pablolazaro/mockly.svg?token=3e0293b00e6875dbf3f4e82f976708e75e35b556)
 ![Codecov](https://img.shields.io/codecov/c/github/pablolazaro/mockly.svg)
 ![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/pablolazaro/mockly.svg)
+[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 
 # Mockly
 
