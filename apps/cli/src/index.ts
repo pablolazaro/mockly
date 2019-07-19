@@ -1,4 +1,5 @@
 import { Command } from '@oclif/command';
+// tslint:disable-next-line:nx-enforce-module-boundaries
 import {
   createAndHydrateJsonDatabase,
   createAndHydrateResourcesDatabases,

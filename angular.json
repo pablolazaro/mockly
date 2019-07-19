@@ -35,10 +35,9 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "apps/server/tsconfig.app.json",
-              "apps/server/tsconfig.spec.json"
+              "apps/server/tsconfig.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/server/**"]
+            "exclude": ["**/node_modules/**", "!apps/server/**", "**/dist/**"]
           }
         },
         "test": {
@@ -82,10 +81,9 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "apps/cli/tsconfig.app.json",
-              "apps/cli/tsconfig.spec.json"
+              "apps/cli/tsconfig.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/cli/**"]
+            "exclude": ["**/node_modules/**", "!apps/cli/**", "**/dist/**"]
           }
         },
         "test": {
