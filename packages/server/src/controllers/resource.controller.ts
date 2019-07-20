@@ -1,3 +1,4 @@
+import { DelayInterceptor } from './../interceptors/delay.interceptor';
 import {
   BadRequestException,
   Body,
@@ -8,11 +9,13 @@ import {
   NotFoundException,
   Param,
   Post,
-  Put
+  Put,
+  UseInterceptors
 } from '@nestjs/common';
 import { DatabaseRegistry } from '../services/database-registry.service';
 import { getRandomId } from '../utils';
 
+@UseInterceptors(DelayInterceptor)
 export class ResourceController<T> {
   private readonly _db: PouchDB.Database;
 
