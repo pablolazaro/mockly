@@ -17,6 +17,7 @@ import {
   getDefinitions,
   getResourceFiles,
   getResourceFilesContent,
+  getResourcesAndDataDefinitions,
   isRestResource
 } from './resources';
 import { ResourceType } from '../models/resource-type';
@@ -123,6 +124,18 @@ describe('Resources utils', () => {
       expect(content).toBeDefined();
       expect(content).toHaveLength(1);
       expect(content[0]).toBeDefined();
+    });
+  });
+
+  describe('getResourcesAndDataDefinitions', () => {
+    it('should get definitions', async () => {
+      const defs = await getResourcesAndDataDefinitions('**');
+
+      expect(defs).toBeDefined();
+      expect(defs).toHaveLength(1);
+      expect(defs[0]).toBeDefined();
+      expect(defs[0].name).toBe('artists');
+      expect(defs[0].type).toBe(ResourceType.REST_RESOURCE);
     });
   });
 });

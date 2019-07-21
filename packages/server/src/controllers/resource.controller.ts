@@ -83,7 +83,7 @@ export class ResourceController<T> {
 
     if (resource !== null && resource !== undefined) {
       const result = await this._db.remove(resource);
-      console.log(result);
+
       if (result.ok) {
         return;
       } else {
