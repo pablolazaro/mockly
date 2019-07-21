@@ -1,5 +1,5 @@
 import { ResourceController } from '../controllers/resource.controller';
-import { Controller } from '@nestjs/common';
+import { Controller, Inject } from '@nestjs/common';
 import { DatabaseRegistry } from '../services/database-registry.service';
 import { DataController } from '../controllers/data.controller';
 import { appendPrefix, capitalizeFirstLetter } from '../utils';
@@ -23,7 +23,7 @@ export class ControllerFactory {
     });
 
     Controller(appendPrefix(name, prefix))(controller);
-
+    Inject(DatabaseRegistry)(controller.prototype.constructor, 'registry', 0);
     return controller;
   }
 

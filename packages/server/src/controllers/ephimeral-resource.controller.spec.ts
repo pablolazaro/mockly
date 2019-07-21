@@ -1,8 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ResourceControllerFactory } from '../factories/resource-controller.factory';
 import { DatabaseRegistry } from '../services/database-registry.service';
 import request from 'supertest';
 import { createDatabase } from '../utils';
+import { ControllerFactory } from '../factories/controller.factory';
+import { ControllerType } from '../models/controller-type';
 
 describe('EphimeralResourceController (e2e)', () => {
   let app;
@@ -17,7 +18,13 @@ describe('EphimeralResourceController (e2e)', () => {
     ]);
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      controllers: [ResourceControllerFactory.createController('cats')],
+      controllers: [
+        ControllerFactory.create(
+          'cats',
+          null,
+          ControllerType.RESOURCE_CONTROLLER
+        )
+      ],
       providers: [
         {
           provide: DatabaseRegistry,
