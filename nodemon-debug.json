@@ -4,6 +4,6 @@
   "ignore": ["apps/**/*.spec.ts"],
   "exec": "node --inspect-brk -r ts-node/register -r tsconfig-paths/register  packages/cli/src/debug.ts",
   "env": {
-    "TS_NODE_PROJECT": "apps/cli/tsconfig.json"
+    "TS_NODE_PROJECT": "packages/cli/tsconfig.json"
   }
 }
