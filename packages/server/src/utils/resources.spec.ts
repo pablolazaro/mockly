@@ -1,7 +1,22 @@
+jest.mock('./files');
+
+import { findFiles, getFilesContent } from './files';
+
+(findFiles as any).mockReturnValue(Promise.resolve(['']));
+(getFilesContent as any).mockReturnValue(
+  Promise.resolve([
+    {
+      artists: [{ id: '1' }]
+    }
+  ])
+);
+
 import {
   createAndHydrateJsonDatabase,
   createAndHydrateResourcesDatabases,
   getDefinitions,
+  getResourceFiles,
+  getResourceFilesContent,
   isRestResource
 } from './resources';
 import { ResourceType } from '../models/resource-type';
@@ -90,6 +105,24 @@ describe('Resources utils', () => {
       expect(map.get('artists')).toBeDefined();
       expect(map.get('artists').name).toBe('artists');
       expect((await map.get('artists').allDocs()).rows).toHaveLength(2);
+    });
+  });
+
+  describe('getResourceFiles', () => {
+    it('should get resource files', async () => {
+      const files = await getResourceFiles('**/*.resource.json');
+
+      expect(files).toBeDefined();
+      expect(files).toHaveLength(1);
+    });
+  });
+
+  describe('getResourceFilesContent', () => {
+    it('should get files content', async () => {
+      const content = await getResourceFilesContent(['']);
+      expect(content).toBeDefined();
+      expect(content).toHaveLength(1);
+      expect(content[0]).toBeDefined();
     });
   });
 });
