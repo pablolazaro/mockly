@@ -26,7 +26,7 @@ export async function getResponsesConfigurationErrors(
 
 export async function createAndHydrateResponsesConfigDatabase(
   configs: ResponseConfig[]
-) {
+): Promise<PouchDB.Database> {
   const db = createDatabase('responses');
   await hydrateDatabase(db, configs);
   return db;

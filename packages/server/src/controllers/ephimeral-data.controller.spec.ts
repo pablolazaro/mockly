@@ -2,25 +2,30 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { DatabaseRegistry } from '../services/database-registry.service';
 import request from 'supertest';
 import { createDatabase } from '../utils';
-import { DataControllerFactory } from '../factories/data-controller.factory';
+import { ControllerFactory } from '../factories/controller.factory';
+import { ControllerType } from '../models/controller-type';
 
 describe('EphimeralDataController (e2e)', () => {
   let app;
   let db;
 
   beforeEach(async () => {
-    if (db) {
-      await db.destroy();
-    }
+    // if (db) {
+    //   await db.destroy();
+    // }
 
-    db = createDatabase('data');
+    db = createDatabase('dataForEphimeralDataController');
 
     await db.bulkDocs([{ name: 'status', value: { ok: true } }]);
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
       controllers: [
-        DataControllerFactory.createController('status'),
-        DataControllerFactory.createController('fake')
+        ControllerFactory.create(
+          'status',
+          null,
+          ControllerType.DATA_CONTROLLER
+        ),
+        ControllerFactory.create('fake', null, ControllerType.DATA_CONTROLLER)
       ],
       providers: [
         {

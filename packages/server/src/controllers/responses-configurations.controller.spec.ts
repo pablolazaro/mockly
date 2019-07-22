@@ -1,7 +1,6 @@
 import { createDatabase } from '../utils';
 import { DatabaseRegistry } from '../services/database-registry.service';
 import { ResponsesConfigurationsController } from './responses-configurations.controller';
-import { ResponsesConfigurationsService } from '../services/responses-configurations.service';
 import { NotFoundException, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
@@ -21,7 +20,7 @@ describe('ResponsesConfigurationsController', () => {
     const map = new Map();
     map.set('responses', db);
     controller = new ResponsesConfigurationsController(
-      new ResponsesConfigurationsService(new DatabaseRegistry(map))
+      new DatabaseRegistry(map)
     );
   });
 
@@ -92,7 +91,6 @@ describe('ResponsesConfigurationsController (e2e)', () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       controllers: [ResponsesConfigurationsController],
       providers: [
-        ResponsesConfigurationsService,
         {
           provide: DatabaseRegistry,
           useValue: new DatabaseRegistry(new Map().set('responses', db))

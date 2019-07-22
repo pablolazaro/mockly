@@ -5,59 +5,47 @@ import {
   Delete,
   Get,
   HttpCode,
-  InternalServerErrorException,
-  NotFoundException,
   Param,
   Post,
   Put,
   UseInterceptors
 } from '@nestjs/common';
 import { DatabaseRegistry } from '../services/database-registry.service';
+import { DocumentService } from '../services/document.service';
+import { DocumentRepository } from '../repositories/document.repository';
 import { getRandomId } from '../utils';
 
 @UseInterceptors(DelayInterceptor)
 export class ResourceController<T> {
-  private readonly _db: PouchDB.Database;
+  private readonly _service: DocumentService<T>;
 
   constructor(
     readonly _registry: DatabaseRegistry,
     readonly _resourceName: string
   ) {
-    this._db = this._registry.get(this._resourceName);
+    this._service = new DocumentService(
+      new DocumentRepository<T>(this._registry.get(this._resourceName))
+    );
   }
 
   @Get()
   async getAll() {
-    const docs = await this._db.allDocs({ include_docs: true });
-
-    return docs.rows.map(row => row.doc);
+    return await this._service.getAll();
   }
 
   @Post()
   async create(@Body() body: any): Promise<PouchDB.Core.ExistingDocument<T>> {
     if (typeof body !== 'object') {
       throw new BadRequestException();
-    }
-
-    const id = getRandomId();
-    const result = await this._db.post({ ...body, id });
-
-    if (result.ok) {
-      return await this._getResource(id);
     } else {
-      throw new InternalServerErrorException(result);
+      const id = getRandomId();
+      return await this._service.create({ ...body, id });
     }
   }
 
   @Get(':id')
   async getOne(@Param('id') id: string) {
-    const resource = await this._getResource(id);
-
-    if (resource !== null && resource !== undefined) {
-      return resource;
-    } else {
-      throw new NotFoundException();
-    }
+    return await this._service.getById(id, false);
   }
 
   @Put(':id')
@@ -67,45 +55,14 @@ export class ResourceController<T> {
   ): Promise<PouchDB.Core.ExistingDocument<T>> {
     if (typeof body !== 'object') {
       throw new BadRequestException();
-    }
-
-    const resource = await this._getResource(id);
-
-    if (resource !== null && resource !== undefined) {
-      const result = await this._db.put({ ...resource, ...body });
-      return await this._getResource(id);
     } else {
-      throw new NotFoundException();
+      return await this._service.update({ ...body, id }, false);
     }
   }
 
   @HttpCode(204)
   @Delete(':id')
   async delete(@Param('id') id: string) {
-    const resource = await this._getResource(id);
-
-    if (resource !== null && resource !== undefined) {
-      const result = await this._db.remove(resource);
-      console.log(result);
-      if (result.ok) {
-        return;
-      } else {
-        throw new InternalServerErrorException();
-      }
-    } else {
-      throw new NotFoundException();
-    }
-  }
-
-  private async _getResource(
-    id: string
-  ): Promise<PouchDB.Core.ExistingDocument<T>> {
-    const result = await this._db.find({
-      selector: {
-        id: { $eq: id }
-      }
-    });
-
-    return result.docs[0] as PouchDB.Core.ExistingDocument<T>;
+    return await this._service.delete(id, false);
   }
 }

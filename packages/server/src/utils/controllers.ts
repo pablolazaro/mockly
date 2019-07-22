@@ -1,7 +1,7 @@
-import { DataControllerFactory } from '../factories/data-controller.factory';
-import { ResourceControllerFactory } from '../factories/resource-controller.factory';
 import { ResourceType } from '../models/resource-type';
 import { ResourceDefinition } from '../models/resource-definition';
+import { ControllerFactory } from '../factories/controller.factory';
+import { ControllerType } from '../models/controller-type';
 
 export function getControllers(
   definitions: ResourceDefinition[],
@@ -10,9 +10,17 @@ export function getControllers(
   return definitions.map(def => {
     switch (def.type) {
       case ResourceType.REST_RESOURCE:
-        return ResourceControllerFactory.createController(def.name, prefix);
+        return ControllerFactory.create(
+          def.name,
+          prefix,
+          ControllerType.RESOURCE_CONTROLLER
+        );
       case ResourceType.JSON_DATA:
-        return DataControllerFactory.createController(def.name, prefix);
+        return ControllerFactory.create(
+          def.name,
+          prefix,
+          ControllerType.DATA_CONTROLLER
+        );
     }
   });
 }

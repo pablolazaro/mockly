@@ -2,19 +2,23 @@ import { NestMiddleware, Injectable } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { ResponseConfig } from '../models/response-config';
 import { DatabaseRegistry } from '../services/database-registry.service';
+import { DocumentService } from '../services/document.service';
+import { DocumentRepository } from '../repositories/document.repository';
 
 @Injectable()
 export class ResponseMiddleware implements NestMiddleware {
-  private db: PouchDB.Database<ResponseConfig>;
+  private readonly _service: DocumentService<ResponseConfig>;
 
-  constructor(private readonly registry: DatabaseRegistry) {
-    this.db = registry.get('responses');
+  constructor(readonly registry: DatabaseRegistry) {
+    this._service = new DocumentService(
+      new DocumentRepository<ResponseConfig>(registry.get('responses'))
+    );
   }
 
   async use(req: Request, res: Response, next: () => void) {
     const { baseUrl, method } = req;
 
-    const result = await this.db.find({
+    const result = await this._service.find({
       selector: {
         path: { $eq: baseUrl },
         method: { $eq: method }

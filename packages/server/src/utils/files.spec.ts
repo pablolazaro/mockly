@@ -1,3 +1,6 @@
+jest.mock('globby');
+import globby from 'globby';
+
 describe('Files utils', () => {
   beforeAll(() => jest.mock('fs'));
   afterAll(() => jest.dontMock('fs'));
@@ -36,6 +39,17 @@ describe('Files utils', () => {
       expect(content).toBeDefined();
       expect(content.artists).toBeDefined();
       expect(content.artists).toHaveLength(1);
+    });
+  });
+
+  describe('findFiles', () => {
+    it('shoud find files', async () => {
+      (globby as any).mockReturnValue(Promise.resolve(['', '', '', '', '']));
+      const { findFiles } = require('./files');
+      const files = await findFiles('**');
+
+      expect(files).toBeDefined();
+      expect(files).toHaveLength(5);
     });
   });
 });
