@@ -44,7 +44,7 @@ export class MocklyCli extends Command {
 
     const dbsMap = await this.getDatabasesMap(definitions, responsesConfig);
 
-    const controllers = getControllers(definitions);
+    const controllers = getControllers(definitions, config.prefix);
 
     return await start(controllers, dbsMap, config, rewrites);
   }
