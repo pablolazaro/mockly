@@ -2,5 +2,11 @@
   "packages": [
     "packages/*"
   ],
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "npmClient": "yarn",
+  "command": {
+    "publish": {
+      "message": "chore(mockly): prepares new release"
+    }
+  }
 }
