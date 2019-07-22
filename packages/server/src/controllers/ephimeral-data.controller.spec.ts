@@ -10,11 +10,11 @@ describe('EphimeralDataController (e2e)', () => {
   let db;
 
   beforeEach(async () => {
-    if (db) {
-      await db.destroy();
-    }
+    // if (db) {
+    //   await db.destroy();
+    // }
 
-    db = createDatabase('data');
+    db = createDatabase('dataForEphimeralDataController');
 
     await db.bulkDocs([{ name: 'status', value: { ok: true } }]);
 

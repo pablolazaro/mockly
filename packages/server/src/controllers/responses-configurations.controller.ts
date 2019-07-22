@@ -1,39 +1,40 @@
 import {
+  Body,
   Controller,
   Get,
   Param,
   Patch,
-  Body,
-  NotFoundException,
   UsePipes,
   ValidationPipe
 } from '@nestjs/common';
 import { ResponseConfig } from '../models';
-import { ResponsesConfigurationsService } from '../services/responses-configurations.service';
+import { DocumentService } from '../services/document.service';
+import { DocumentRepository } from '../repositories/document.repository';
+import { DatabaseRegistry } from '../services/database-registry.service';
 
 @Controller('responses')
 export class ResponsesConfigurationsController {
-  constructor(private readonly service: ResponsesConfigurationsService) {}
+  private readonly _service: DocumentService<ResponseConfig>;
+
+  constructor(readonly registry: DatabaseRegistry) {
+    this._service = new DocumentService(
+      new DocumentRepository<ResponseConfig>(registry.get('responses'))
+    );
+  }
 
   @Get()
-  async all(): Promise<Array<PouchDB.Core.ExistingDocument<ResponseConfig>>> {
-    return await this.service.all();
+  async all(): Promise<Array<ResponseConfig>> {
+    return await this._service.getAll();
   }
 
   @Get(':id')
   async get(@Param('id') id: string) {
-    const doc = await this.service.get(id);
-
-    if (doc !== null && doc !== undefined) {
-      return doc;
-    } else {
-      throw new NotFoundException();
-    }
+    return await this._service.getById(id);
   }
 
   @Patch(':id')
   @UsePipes(ValidationPipe)
   async update(@Param('id') id: string, @Body() config: ResponseConfig) {
-    return await this.service.update(id, config);
+    return await this._service.update({ ...config, _id: id });
   }
 }

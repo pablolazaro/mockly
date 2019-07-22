@@ -1,14 +1,18 @@
 import { Get, HttpCode, NotFoundException, Post } from '@nestjs/common';
 import { DatabaseRegistry } from '../services/database-registry.service';
+import { DocumentService } from '../services/document.service';
+import { DocumentRepository } from '../repositories/document.repository';
 
 export class DataController<T> {
-  private readonly _db: PouchDB.Database;
+  private readonly _service: DocumentService<T>;
 
   constructor(
-    private readonly _registry: DatabaseRegistry,
+    readonly _registry: DatabaseRegistry,
     private readonly _dataName: string
   ) {
-    this._db = _registry.get('data');
+    this._service = new DocumentService(
+      new DocumentRepository<T>(this._registry.get('data'))
+    );
   }
 
   @Get()
@@ -23,7 +27,9 @@ export class DataController<T> {
   }
 
   private async _getData(name: string) {
-    const find = await this._db.find({ selector: { name: { $eq: name } } });
+    const find = await this._service.find({
+      selector: { name: { $eq: name } }
+    });
 
     if (find.docs.length) {
       return (find.docs[0] as any).value;
