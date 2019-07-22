@@ -26,6 +26,6 @@ export async function start(
   );
 
   Object.keys(rewrites).forEach(key => app.use(rewrite(key, rewrites[key])));
-
+  app.enableCors();
   await app.listen(config.port);
 }
