@@ -26,6 +26,11 @@
     "pouchdb-adapter-memory": "^7.1.1",
     "pouchdb-find": "^7.1.1",
     "rc": "^1.2.8",
+    "reflect-metadata": "^0.1.12",
+    "rxjs": "~6.4.0",
     "uniqid": "^5.0.3"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

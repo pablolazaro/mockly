@@ -31,7 +31,7 @@
     "dep-graph": "nx dep-graph",
     "help": "nx help",
     "prerelease": "npm run build:server && npm run build:cli",
-    "release": "lerna publish --prerelease --preid alpha --dist-tag alpha --no-git-tag-version"
+    "release": "lerna publish prerelease --preid alpha --dist-tag alpha --no-git-tag-version"
   },
   "private": true,
   "dependencies": {
