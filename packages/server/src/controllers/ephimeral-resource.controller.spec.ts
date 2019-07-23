@@ -29,7 +29,7 @@ describe('EphimeralResourceController (e2e)', () => {
       providers: [
         {
           provide: DatabaseRegistry,
-          useValue: new DatabaseRegistry(new Map().set('cats', db), '')
+          useValue: new DatabaseRegistry(new Map().set('cats', db))
         },
         DelayInterceptor,
         {

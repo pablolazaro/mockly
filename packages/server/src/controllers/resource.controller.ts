@@ -1,4 +1,3 @@
-import { DelayInterceptor } from './../interceptors/delay.interceptor';
 import {
   BadRequestException,
   Body,
@@ -7,15 +6,13 @@ import {
   HttpCode,
   Param,
   Post,
-  Put,
-  UseInterceptors
+  Put
 } from '@nestjs/common';
 import { DatabaseRegistry } from '../services/database-registry.service';
 import { DocumentService } from '../services/document.service';
 import { DocumentRepository } from '../repositories/document.repository';
 import { getRandomId } from '../utils';
 
-@UseInterceptors(DelayInterceptor)
 export class ResourceController<T> {
   private readonly _service: DocumentService<T>;
 

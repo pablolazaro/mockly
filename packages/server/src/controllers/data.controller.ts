@@ -1,16 +1,8 @@
-import { DelayInterceptor } from './../interceptors/delay.interceptor';
-import {
-  Get,
-  HttpCode,
-  NotFoundException,
-  Post,
-  UseInterceptors
-} from '@nestjs/common';
+import { Get, HttpCode, NotFoundException, Post } from '@nestjs/common';
 import { DatabaseRegistry } from '../services/database-registry.service';
 import { DocumentService } from '../services/document.service';
 import { DocumentRepository } from '../repositories/document.repository';
 
-@UseInterceptors(DelayInterceptor)
 export class DataController<T> {
   private readonly _service: DocumentService<T>;
 
