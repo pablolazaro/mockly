@@ -3,6 +3,8 @@
 ![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/pablolazaro/mockly.svg)
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 
+> :blue_book: Check the documentation out [here](https://mockly.gitbook.io)
+
 # Mockly
 
 > Mocky is under development and is still not finished yet. Try it keeping this in mind.
