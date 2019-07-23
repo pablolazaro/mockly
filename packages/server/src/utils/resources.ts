@@ -1,31 +1,18 @@
-import globby from 'globby';
-import { join } from 'path';
 import { cwd } from 'process';
-import { promisify } from 'util';
-import { readFile } from 'fs';
 import { ResourceDefinition } from '../models/resource-definition';
 import { ResourceType } from '../models/resource-type';
 import { createDatabase, hydrateDatabase } from './databases';
-
-const promisifiedReadFile = promisify(readFile);
+import { findFiles, getFilesContent } from './files';
 
 export async function getResourceFiles(
   glob: string,
   currentWorkingDirectory = cwd()
 ): Promise<string[]> {
-  return await globby([
-    join(currentWorkingDirectory, glob),
-    join('!', currentWorkingDirectory, '**', '/', 'responses.resource.json')
-  ]);
+  return await findFiles(glob, currentWorkingDirectory);
 }
 
 export async function getResourceFilesContent(files: string[]) {
-  const readFilesPromises = files.map(file =>
-    promisifiedReadFile(file, 'utf-8')
-  );
-
-  const filesContent = await Promise.all(readFilesPromises);
-  return filesContent.map(content => JSON.parse(content));
+  return await getFilesContent(files);
 }
 
 export function getDefinitions(contents: any[]): ResourceDefinition[] {

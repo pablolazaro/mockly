@@ -7,5 +7,5 @@ export const DEFAULT_CONFIG = {
   prefix: '',
   resourceFilesGlob: '**/*.resource.json',
   rewritesFilesGlob: '**/*.rewrites.json',
-  responsesConfigGlob: '**/responses.resource.json'
+  responsesConfigGlob: '**/responses.config.json'
 };

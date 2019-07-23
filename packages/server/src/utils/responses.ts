@@ -1,28 +1,20 @@
 import { cwd } from 'process';
-import { join } from 'path';
-import globby from 'globby';
-import { promisify } from 'util';
-import { readFile } from 'fs';
 import { validate, ValidationError } from 'class-validator';
 import { ResponseConfig } from '../models/response-config';
 import { createDatabase, hydrateDatabase } from './databases';
-
-const promisifiedReadFile = promisify(readFile);
+import { findFiles, getFilesContent } from './files';
 
 export async function getResponsesConfiguration(
   glob: string,
   currentWorkingDirectory = cwd()
 ): Promise<ResponseConfig[]> {
-  const files = await globby([join(currentWorkingDirectory, glob)]);
+  const files = await findFiles(glob, currentWorkingDirectory);
+  const contents = await getFilesContent(files);
 
-  if (files.length > 0) {
-    const file = files[0];
-    const content = await promisifiedReadFile(file, 'utf-8');
-
-    return JSON.parse(content).responses as ResponseConfig[];
-  } else {
-    return [];
-  }
+  return contents.reduce(
+    (arr: ResponseConfig[], c: any) => [...arr, ...c.responses],
+    []
+  ) as ResponseConfig[];
 }
 
 export async function getResponsesConfigurationErrors(
@@ -34,7 +26,7 @@ export async function getResponsesConfigurationErrors(
 
 export async function createAndHydrateResponsesConfigDatabase(
   configs: ResponseConfig[]
-) {
+): Promise<PouchDB.Database> {
   const db = createDatabase('responses');
   await hydrateDatabase(db, configs);
   return db;

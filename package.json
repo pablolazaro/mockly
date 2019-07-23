@@ -29,7 +29,9 @@
     "update:check": "ng update",
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
-    "help": "nx help"
+    "help": "nx help",
+    "prerelease": "npm run build:server && npm run build:cli",
+    "release": "lerna publish prerelease --preid alpha --dist-tag alpha --no-git-tag-version"
   },
   "private": true,
   "dependencies": {
@@ -81,7 +83,7 @@
     "@nrwl/nest": "8.2.0",
     "@nrwl/node": "8.2.0",
     "@nrwl/workspace": "8.2.0",
-    "@types/jest": "24.0.9",
+    "@types/jest": "^24.0.15",
     "@types/node": "~8.9.4",
     "@types/rc": "^1.1.0",
     "codelyzer": "~5.0.1",
