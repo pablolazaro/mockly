@@ -30,9 +30,10 @@
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "prerelease": "npm run build:server && npm run build:cli",
     "release": "lerna publish prerelease --preid alpha --dist-tag alpha --no-git-tag-version",
-    "version:prerelease": "lerna version prerelease --conventional-commits --preid alpha --no-git-tag-version -m 'chore(release): publish %s'"
+    "version:prerelease": "lerna version prerelease --conventional-commits --preid alpha --no-git-tag-version -m 'chore(release): publish %s'",
+    "prepare": "yarn test && yarn run lint",
+    "prepack": "yarn run build:cli && yarn run build:server"
   },
   "private": true,
   "dependencies": {
