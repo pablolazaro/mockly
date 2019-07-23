@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { MocklyModule } from './mockly.module';
 import { DatabaseRegistry } from '../services/database-registry.service';
 import { MocklyConfig } from '../models';
-import { ValidationPipe } from '@nestjs/common';
 
 import rewrite from 'express-urlrewrite';
 
@@ -26,6 +25,8 @@ export async function start(
   );
 
   Object.keys(rewrites).forEach(key => app.use(rewrite(key, rewrites[key])));
+
   app.enableCors();
+
   await app.listen(config.port);
 }
