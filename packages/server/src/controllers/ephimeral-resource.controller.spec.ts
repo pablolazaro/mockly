@@ -18,7 +18,6 @@ describe('EphimeralResourceController (e2e)', () => {
       { id: '1', name: 'Kitty', color: 'brown' },
       { id: '2', name: 'Pitty', color: 'black' }
     ]);
-
     const moduleFixture: TestingModule = await Test.createTestingModule({
       controllers: [
         ControllerFactory.create(
@@ -30,13 +29,19 @@ describe('EphimeralResourceController (e2e)', () => {
       providers: [
         {
           provide: DatabaseRegistry,
-          useValue: new DatabaseRegistry(new Map().set('cats', db))
+          useValue: new DatabaseRegistry(new Map().set('cats', db), '')
         },
+        DelayInterceptor,
         {
-          provide: DelayInterceptor,
-          useValue: new DelayInterceptor(
-            new MocklyConfig(1, 3000, '', '', '', '')
-          )
+          provide: MocklyConfig,
+          useValue: {
+            delay: 1,
+            port: 3000,
+            prefix: '',
+            resourceFilesGlob: '',
+            rewritesFilesGlob: '',
+            responsesConfigGlob: ''
+          }
         }
       ]
     }).compile();
