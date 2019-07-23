@@ -4,6 +4,8 @@ import request from 'supertest';
 import { createDatabase } from '../utils';
 import { ControllerFactory } from '../factories/controller.factory';
 import { ControllerType } from '../models/controller-type';
+import { DelayInterceptor } from '../interceptors/delay.interceptor';
+import { MocklyConfig } from '../models/mockly-config';
 
 describe('EphimeralDataController (e2e)', () => {
   let app;
@@ -31,6 +33,18 @@ describe('EphimeralDataController (e2e)', () => {
         {
           provide: DatabaseRegistry,
           useValue: new DatabaseRegistry(new Map().set('data', db))
+        },
+        DelayInterceptor,
+        {
+          provide: MocklyConfig,
+          useValue: {
+            delay: 1,
+            port: 3000,
+            prefix: '',
+            resourceFilesGlob: '',
+            rewritesFilesGlob: '',
+            responsesConfigGlob: ''
+          }
         }
       ]
     }).compile();

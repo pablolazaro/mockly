@@ -1,0 +1,60 @@
+{
+  "heroes": [
+    {
+      "hero_name": "Spiderman",
+      "real_name": "Peter Parke",
+      "age": 16,
+      "villains": [
+        {
+          "villain_name": "Doctor Octupus",
+          "real_name": "Otto Octavius",
+          "age": 44
+        },
+        {
+          "villain_name": "Green Goblin",
+          "real_name": "Norman Osborn",
+          "age": 48
+        },
+        {
+          "villain_name": "Mysterio",
+          "real_name": "Quentin Beck",
+          "age": 36
+        }
+      ]
+    },
+    {
+      "hero_name": "Doctor Strange",
+      "real_name": "Stephen Strange",
+      "age": 16,
+      "villains": [
+        {
+          "villain_name": "Dormammu",
+          "real_name": "Dormammu",
+          "age": null
+        },
+        {
+          "villain_name": "Baron Mordo",
+          "real_name": "Karl Amadeus Mordo",
+          "age": 39
+        }
+      ]
+    },
+    {
+      "hero_name": "Thor",
+      "real_name": "Thor",
+      "age": 1403,
+      "villains": [
+        {
+          "villain_name": "Loki",
+          "real_name": "Loki",
+          "age": 1401
+        },
+        {
+          "villain_name": "Hela",
+          "real_name": "Hela",
+          "age": 1410
+        }
+      ]
+    }
+  ]
+}
