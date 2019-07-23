@@ -31,6 +31,12 @@
       "description": "Glob applied to retrieve rewrites files",
       "default": "**/*.rewrites.json",
       "examples": ["**/*.proxy.json"]
+    },
+    "responsesConfigGlob": {
+      "type": "string",
+      "description": "Glob applied to retrieve responses config files",
+      "default": "**/*.responses.config.json",
+      "examples": ["**/*.responses.json"]
     }
   }
 }
