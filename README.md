@@ -5,10 +5,26 @@
 
 # Mockly
 
-> Work in progress
+> Mocky is under development and is still not finished yet. Try it keeping this in mind.
 
-Mockly is highly configurable mocking server focused on break the dependency between your Front End
-applications and the HTTP services that they consume at development time. No more time wasted waiting
-the server status or services availability. You will have your mocking server available in a breeze just
-creating a few files, control how you want the services to behave applying delays or returning different
-HTTP status codes.
+Mockly is a highly configurable mocking server focused on break the dependency between your Front End applications and the HTTP services that they consume at development time. No more time wasted waiting the server status or services availability. You will have your mocking server available in a breeze just creating a few files. Control how you want the services to behave applying delays or returning different HTTP status codes and much more.
+
+## Install
+
+Install Mockly, as other CLI tools, is pretty straightforward. You can choose between install it globally:
+```
+npm install -g @mockly/cli@alpha
+```
+
+Or locally in a project:
+
+```
+npm install --save-dev @mockly/cli@alpha
+```
+
+Independently the way you chose to install the tool,  you should be able to use it just typing mockly to start the server:
+
+```
+$ mockly
+```
+
