@@ -17,20 +17,24 @@ import {
   ResourceType,
   ResponseConfig,
   RewriteConfig,
-  start
+  start,
+  MocklyWatcher
 } from '@mockly/server';
+import { Logger } from '@nestjs/common';
 
 const CFonts = require('cfonts');
 
 export class MocklyCli extends Command {
   static description = 'describe the command here';
 
-  async run() {
-    this.printTitle('Mockly');
+  async run(restarting = false) {
+    if (!restarting) {
+      this.printTitle('Mockly');
 
-    this.log(
-      'Welcome to Mockly! You will have your favourite mock server running soon!\n'
-    );
+      this.log(
+        'Welcome to Mockly! You will have your favourite mock server running soon!\n'
+      );
+    }
 
     const config = await this.getAndValidateConfiguration();
 
@@ -50,7 +54,17 @@ export class MocklyCli extends Command {
 
     const controllers = getControllers(definitions, config.prefix);
 
-    return await start(controllers, dbsMap, config, rewrites);
+    const app = await start(controllers, dbsMap, config, rewrites);
+
+    const watcher = new MocklyWatcher(config);
+
+    watcher.changes$.subscribe(async path => {
+      this.log('\nChanges detected. Restarting the server...\n');
+      await app.close();
+      await this.run(true);
+    });
+
+    watcher.start(app);
   }
 
   printTitle(title: string) {

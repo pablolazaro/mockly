@@ -6,3 +6,4 @@ export * from './resources';
 export * from './responses';
 export * from './rewrites';
 export * from './files';
+export * from './watcher';
