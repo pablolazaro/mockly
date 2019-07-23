@@ -11,10 +11,12 @@ import {
   getResponsesConfiguration,
   getResponsesConfigurationErrors,
   getRewrites,
+  getRewritesConfigurationErrors,
   MocklyConfig,
   ResourceDefinition,
   ResourceType,
   ResponseConfig,
+  RewriteConfig,
   start
 } from '@mockly/server';
 
@@ -36,7 +38,9 @@ export class MocklyCli extends Command {
       config.responsesConfigGlob
     );
 
-    const rewrites = await getRewrites(config.rewritesFilesGlob);
+    const rewrites = await this.getAndValidateRewritesConfiguration(
+      config.rewritesFilesGlob
+    );
 
     const definitions = await getResourcesAndDataDefinitions(
       config.resourceFilesGlob
@@ -85,6 +89,20 @@ export class MocklyCli extends Command {
     } else {
       this.error('Invalid responses configuration file!');
       return config;
+    }
+  }
+
+  async getAndValidateRewritesConfiguration(
+    glob: string
+  ): Promise<RewriteConfig[]> {
+    const rewrites = await await getRewrites(glob);
+    const errors = await getRewritesConfigurationErrors(rewrites);
+
+    if (errors.length === 0 || errors.every(arr => arr.length === 0)) {
+      return rewrites;
+    } else {
+      this.error('Invalid rewrites configurations!');
+      return rewrites;
     }
   }
 
