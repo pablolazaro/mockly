@@ -5,8 +5,8 @@
   "version": "0.0.1-alpha.6",
   "npmClient": "yarn",
   "command": {
-    "publish": {
-      "message": "chore(mockly): prepares new release"
+    "version": {
+      "message": "chore(release): prepares release %s"
     }
   }
 }
