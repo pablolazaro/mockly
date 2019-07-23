@@ -1,6 +1,6 @@
 {
   "name": "@mockly/cli",
-  "version": "0.0.1-alpha.6",
+  "version": "0.0.1-alpha.10",
   "author": "Pablo Lazaro",
   "bin": {
     "mockly": "./bin/run"
@@ -28,7 +28,7 @@
     "bin": "mockly"
   },
   "dependencies": {
-    "@mockly/server": "^0.0.1-alpha.6",
+    "@mockly/server": "^0.0.1-alpha.10",
     "@oclif/command": "^1.5.16",
     "@oclif/config": "^1.13.2",
     "@oclif/plugin-help": "^2.2.0",

@@ -30,8 +30,8 @@
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "release": "lerna publish prerelease --preid alpha --force-publish=* --dist-tag alpha --no-git-tag-version",
-    "version:prerelease": "lerna version prerelease --conventional-commits --preid alpha --no-git-tag-version -m 'chore(release): publish %s'",
+    "release": "lerna publish prerelease --preid alpha --dist-tag alpha --from-git",
+    "version:prerelease": "lerna version prerelease --preid alpha -m 'chore(release): publish %s'",
     "prepare": "yarn test && yarn run lint",
     "prepack": "yarn run build:cli && yarn run build:server"
   },
