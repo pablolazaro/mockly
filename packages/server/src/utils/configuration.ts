@@ -10,6 +10,7 @@ export async function getConfiguration(): Promise<MocklyConfig> {
   const config = rc('mockly', DEFAULT_CONFIG);
 
   return new MocklyConfig(
+    config.customControllersGlob,
     config.delay,
     config.port,
     config.prefix,

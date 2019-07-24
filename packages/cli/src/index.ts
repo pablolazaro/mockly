@@ -7,6 +7,7 @@ import {
   getConfiguration,
   getConfigurationValidationErrors,
   getControllers,
+  getCustomControllers,
   getResourcesAndDataDefinitions,
   getResponsesConfiguration,
   getResponsesConfigurationErrors,
@@ -50,7 +51,16 @@ export class MocklyCli extends Command {
 
     const controllers = getControllers(definitions, config.prefix);
 
-    return await start(controllers, dbsMap, config, rewrites);
+    const customControllers = await getCustomControllers(
+      config.customControllersGlob
+    );
+
+    return await start(
+      [...customControllers, ...controllers],
+      dbsMap,
+      config,
+      rewrites
+    );
   }
 
   printTitle(title: string) {

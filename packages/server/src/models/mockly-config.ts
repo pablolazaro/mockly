@@ -4,6 +4,10 @@ import { IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
  * Mockly server configuration.
  */
 export class MocklyConfig {
+  @IsString()
+  @IsOptional()
+  public readonly customControllersGlob: string;
+
   @IsInt()
   @Min(0)
   @Max(50000)
@@ -31,6 +35,7 @@ export class MocklyConfig {
   public readonly responsesConfigGlob: string;
 
   constructor(
+    customControllersGlob: string,
     delay: number,
     port: number,
     prefix: string,
@@ -38,6 +43,7 @@ export class MocklyConfig {
     rewritesFilesGlob: string,
     responsesConfigGlob: string
   ) {
+    this.customControllersGlob = customControllersGlob;
     this.delay = delay;
     this.port = port;
     this.prefix = prefix;

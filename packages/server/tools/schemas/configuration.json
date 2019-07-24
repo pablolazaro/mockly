@@ -3,6 +3,12 @@
   "description": "",
   "name": "Mockly configuration schema",
   "properties": {
+    "customControllersGlob": {
+      "type": "string",
+      "description": "Glob applied to retrieve custom controllers files",
+      "default": "**/*.custom-controller.ts",
+      "examples": ["**/*.my-controller.ts"]
+    },
     "delay": {
       "type": "integer",
       "description": "Sets a delay for all responses",
