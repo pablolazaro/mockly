@@ -33,9 +33,14 @@ export async function getCustomControllers(
   workingDirectory = cwd()
 ) {
   const modulesFiles = await findFiles(glob, workingDirectory);
-  const imports = modulesFiles.map(file => import(file));
-  const modules = await Promise.all(imports);
+  const controllers = await getModulesAndFilterControllers(modulesFiles);
 
+  return controllers;
+}
+
+export async function getModulesAndFilterControllers(files: string[]) {
+  const imports = files.map(file => import(file));
+  const modules = await Promise.all(imports);
   const controllers = modules.reduce((arr, module) => {
     const exports = Object.values(module);
     return [...arr, ...exports.filter(isNestController)];
@@ -44,8 +49,7 @@ export async function getCustomControllers(
   return controllers;
 }
 
-export async function isNestController(target: object) {
+export function isNestController(target: object) {
   const path = Reflect.getMetadata(PATH_METADATA, target);
-
-  return path !== null && path !== undefined ? false : true;
+  return path !== null && path !== undefined ? true : false;
 }
