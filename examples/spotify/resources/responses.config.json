@@ -1,5 +1,5 @@
 {
-  "$schema": "../../../packages/server/tools/schemas/responses-configuration.json",
+  "$schema": "../../../packages/core/tools/schemas/responses-configuration.json",
   "responses": [
     {
       "path": "/v1/me",

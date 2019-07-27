@@ -3,19 +3,19 @@
   "version": 1,
   "newProjectRoot": "",
   "projects": {
-    "server": {
-      "root": "packages/server",
-      "sourceRoot": "packages/server/src",
+    "core": {
+      "root": "packages/core",
+      "sourceRoot": "packages/core/src",
       "projectType": "application",
-      "prefix": "server",
+      "prefix": "core",
       "schematics": {},
       "architect": {
         "build": {
           "builder": "@nrwl/node:build",
           "options": {
-            "outputPath": "packages/server/dist",
-            "main": "packages/server/src/index.ts",
-            "tsConfig": "packages/server/tsconfig.app.json"
+            "outputPath": "packages/core/dist",
+            "main": "packages/core/src/index.ts",
+            "tsConfig": "packages/core/tsconfig.app.json"
           },
           "configurations": {
             "production": {
@@ -29,7 +29,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "packages/server/tsconfig.json"
+              "packages/core/tsconfig.json"
             ],
             "exclude": ["**/node_modules/**", "!packages/server/**", "**/dist/**"]
           }
@@ -37,8 +37,8 @@
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "packages/server/jest.config.js",
-            "tsConfig": "packages/server/tsconfig.spec.json"
+            "jestConfig": "packages/core/jest.config.js",
+            "tsConfig": "packages/core/tsconfig.spec.json"
           }
         }
       }

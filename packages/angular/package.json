@@ -1,5 +1,5 @@
 {
-  "name": "@mockly/schematics",
+  "name": "@mockly/angular",
   "version": "0.0.1-alpha.13",
   "description": "",
   "main": "dist/index.js",
@@ -13,6 +13,6 @@
   "license": "ISC",
   "peerDependencies": {
     "@angular-devkit/architect": "^0.801.2",
-    "@mockly/server": "^0.0.1-alpha.13"
+    "@mockly/core": "^0.0.1-alpha.13"
   }
 }
