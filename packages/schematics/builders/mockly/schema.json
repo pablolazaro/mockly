@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "type": "object",
+    "properties": {
+      "customControllersGlob": {
+        "type": "string",
+        "description": "Glob applied to retrieve custom controllers files",
+        "default": "**/*.custom-controller.ts",
+        "examples": [
+          "**/*.my-controller.ts"
+        ]
+      },
+      "delay": {
+        "type": "integer",
+        "description": "Sets a delay for all responses",
+        "default": 0,
+        "examples": [
+          300,
+          500,
+          700,
+          1500
+        ]
+      },
+      "port": {
+        "type": "integer",
+        "description": "Sets a delay for all responses",
+        "default": 3000,
+        "examples": [
+          3001,
+          3002,
+          3003
+        ]
+      },
+      "prefix": {
+        "type": "string",
+        "description": "Prefix for all requests",
+        "examples": [
+          "/api",
+          "/api/v1"
+        ]
+      },
+      "resourceFilesGlob": {
+        "type": "string",
+        "description": "Glob applied to retrieve resource files",
+        "default": "**/*.resource.json",
+        "examples": [
+          "**/*.db.json"
+        ]
+      },
+      "rewritesFilesGlob": {
+        "type": "string",
+        "description": "Glob applied to retrieve rewrites files",
+        "default": "**/*.rewrites.json",
+        "examples": [
+          "**/*.proxy.json"
+        ]
+      },
+      "responsesConfigGlob": {
+        "type": "string",
+        "description": "Glob applied to retrieve responses config files",
+        "default": "**/*.responses.config.json",
+        "examples": [
+          "**/*.responses.json"
+        ]
+      },
+      "tsConfig": {
+        "type": "string",
+        "description": "",
+        "examples": [
+          "tsconfig.json"
+        ]
+      }
+    }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@mockly/schematics",
+  "version": "0.0.1-alpha.13",
+  "description": "",
+  "main": "dist/index.js",
+  "builders": "builders.json",
+  "scripts": {
+    "build": "tsc",
+    "test": "ts-node node_modules/jasmine/bin/jasmine command/index_spec.ts"
+  },
+  "keywords": [],
+  "author": "Pablo Lazaro",
+  "license": "ISC",
+  "peerDependencies": {
+    "@angular-devkit/architect": "^0.801.2",
+    "@mockly/server": "^0.0.1-alpha.13"
+  }
+}
