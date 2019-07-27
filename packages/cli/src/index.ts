@@ -20,7 +20,7 @@ import {
   ResponseConfig,
   RewriteConfig,
   start
-} from '@mockly/server';
+} from '@mockly/core';
 import { join } from 'path';
 import * as tsNode from 'ts-node';
 import { cwd } from 'process';

@@ -27,7 +27,15 @@ describe('Configuration utils', () => {
   });
 
   it('should validate an invalid configuration', async () => {
-    const config = new MocklyConfig(700, 3000, 1 as any, null, null, null);
+    const config = new MocklyConfig(
+      null,
+      700,
+      3000,
+      1 as any,
+      null,
+      null,
+      null
+    );
     const errors = await getConfigurationValidationErrors(config);
 
     expect(errors).toHaveLength(1);

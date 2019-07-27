@@ -25,7 +25,7 @@ import {
   ResponseConfig,
   RewriteConfig,
   start
-} from '@mockly/server';
+} from '@mockly/core';
 
 import { join } from 'path';
 
