@@ -7,9 +7,10 @@ import {
 } from '@nestjs/common';
 import { ResponseMiddleware } from '../middlewares/request-catcher.middleware';
 import { ResponsesConfigurationsController } from '../controllers/responses-configurations.controller';
+import { DocumentServiceRegistry } from '../services';
 
 const MOCKLY_CONTROLLERS = [ResponsesConfigurationsController];
-const MOCKLY_PROVIDERS = [];
+const MOCKLY_PROVIDERS = [DocumentServiceRegistry];
 
 @Module({})
 export class MocklyModule implements NestModule {

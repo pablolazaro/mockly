@@ -1,7 +1,9 @@
 import { Body, Controller, HttpCode, Post } from '@nestjs/common';
-import { DatabaseRegistry } from '../../../packages/server/src/services/database-registry.service';
-import { DocumentService } from '../../../packages/server/src/services/document.service';
-import { DocumentRepository } from '../../../packages/server/src/repositories/document.repository';
+import {
+  DatabaseRegistry,
+  DocumentService,
+  DocumentRepository
+} from '@mockly/server';
 
 @Controller('artist')
 export class ArtistsCustomController {

@@ -1,0 +1,9 @@
+{
+  "builders": {
+    "mockly": {
+      "implementation": "./dist",
+      "schema": "./builders/mockly/schema.json",
+      "description": "Starts Mockly server"
+    }
+  }
+}
