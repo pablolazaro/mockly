@@ -33,6 +33,7 @@
     "@oclif/config": "^1.13.2",
     "@oclif/plugin-help": "^2.2.0",
     "cfonts": "^2.4.3",
+    "cli-ux": "^5.3.1",
     "tslib": "^1.10.0"
   },
   "engines": {
