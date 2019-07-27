@@ -34,7 +34,7 @@
     "release": "lerna publish from-package",
     "version:prerelease": "lerna version prerelease --preid alpha -m 'chore(release): publish %s'",
     "prepare": "yarn test && yarn run lint",
-    "prepack": "yarn run build:core && yarn run build:cli && yarn run build:core:angular"
+    "prepack": "yarn run build:core && yarn run build:cli && yarn run build:angular"
   },
   "private": true,
   "dependencies": {
