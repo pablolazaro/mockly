@@ -65,7 +65,7 @@
       },
       "tsConfig": {
         "type": "string",
-        "description": "",
+        "description": "path to TS config file",
         "examples": [
           "tsconfig.json"
         ]
