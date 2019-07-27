@@ -31,10 +31,10 @@
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "release": "lerna publish from-git",
+    "release": "lerna publish from-package",
     "version:prerelease": "lerna version prerelease --preid alpha -m 'chore(release): publish %s'",
     "prepare": "yarn test && yarn run lint",
-    "prepack": "yarn run build:cli && yarn run build:server"
+    "prepack": "yarn run build:core && yarn run build:cli && yarn run build:core:angular"
   },
   "private": true,
   "dependencies": {
