@@ -14,5 +14,8 @@
   "peerDependencies": {
     "@angular-devkit/architect": "^0.801.2",
     "@mockly/core": "^0.0.1-alpha.13"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
