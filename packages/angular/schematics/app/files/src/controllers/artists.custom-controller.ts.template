@@ -1,0 +1,8 @@
+import { Controller, HttpCode, Get } from '@nestjs/common';
+
+@Controller('artists')
+export class ArtistsCustomController {
+  @Get('custom')
+  @HttpCode(204)
+  async test() {}
+}

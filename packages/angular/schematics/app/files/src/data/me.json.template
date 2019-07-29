@@ -1,0 +1,23 @@
+{
+  "me": {
+    "display_name": "Peter Pan",
+    "external_urls": {
+      "spotify": "https://open.spotify.com/user/xxxxxx"
+    },
+    "followers": {
+      "href": null,
+      "total": 12
+    },
+    "href": "https://api.spotify.com/v1/users/xxxxxx",
+    "id": "xxxxxx",
+    "images": [
+      {
+        "height": null,
+        "url": "https://fakeurl.png",
+        "width": null
+      }
+    ],
+    "type": "user",
+    "uri": "spotify:user:xxxxxx"
+  }
+}
