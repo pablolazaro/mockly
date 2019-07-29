@@ -3,7 +3,8 @@
   "version": "0.0.1-alpha.14",
   "description": "",
   "main": "dist/index.js",
-  "builders": "builders.json",
+  "builders": "./builders.json",
+  "schematics": "./collection.json",
   "scripts": {
     "build": "tsc",
     "test": "ts-node node_modules/jasmine/bin/jasmine command/index_spec.ts"
@@ -13,6 +14,8 @@
   "license": "ISC",
   "peerDependencies": {
     "@angular-devkit/architect": "^0.801.2",
+    "@angular-devkit/schematics": "^8.1.2",
+    "@angular-devkit/core": "^8.1.2",
     "@mockly/core": "^0.0.1-alpha.13"
   },
   "publishConfig": {

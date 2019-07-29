@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "SchematicsApp",
+  "title": "Mockly App Schema",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "App name",
+      "type": "string"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

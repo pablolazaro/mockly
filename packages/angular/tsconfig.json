@@ -17,5 +17,8 @@
     "sourceMap": true,
     "strictNullChecks": true,
     "types": ["node"]
-  }
+  },
+  "exclude": [
+    "schematics/*/files/**/*"
+  ]
 }

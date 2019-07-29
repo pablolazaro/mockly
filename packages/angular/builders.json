@@ -1,7 +1,7 @@
 {
   "builders": {
     "start": {
-      "implementation": "./dist",
+      "implementation": "./dist/builders/start",
       "schema": "./builders/start/schema.json",
       "description": "Starts Mockly server"
     }
