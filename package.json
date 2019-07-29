@@ -36,7 +36,7 @@
     "dep-graph": "nx dep-graph",
     "help": "nx help",
     "release": "lerna publish from-package",
-    "version:prerelease": "lerna version prerelease --preid alpha -m 'chore(release): publish %s'",
+    "version:prerelease": "lerna version prerelease --force-publish --preid alpha -m 'chore(release): publish %s'",
     "prepare": "yarn test && yarn run lint",
     "prepack": "yarn run build:core && yarn run build:cli && yarn run build:angular"
   },
