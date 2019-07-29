@@ -1,6 +1,6 @@
 {
   "name": "@mockly/angular",
-  "version": "0.0.1-alpha.14",
+  "version": "0.0.1-alpha.15",
   "description": "",
   "main": "dist/index.js",
   "builders": "./builders.json",
@@ -14,8 +14,8 @@
   "license": "ISC",
   "peerDependencies": {
     "@angular-devkit/architect": "^0.801.2",
-    "@angular-devkit/schematics": "^8.1.2",
     "@angular-devkit/core": "^8.1.2",
+    "@angular-devkit/schematics": "^8.1.2",
     "@mockly/core": "^0.0.1-alpha.13"
   },
   "publishConfig": {
