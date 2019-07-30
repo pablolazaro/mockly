@@ -6,6 +6,7 @@ import {
 } from '@angular-devkit/architect';
 import { JsonObject, workspaces } from '@angular-devkit/core';
 import { NodeJsSyncHost } from '@angular-devkit/core/node';
+// tslint:disable-next-line:nx-enforce-module-boundaries
 import {
   createAndHydrateJsonDatabase,
   createAndHydrateResourcesDatabases,
