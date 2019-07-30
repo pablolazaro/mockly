@@ -3,11 +3,12 @@
   "schematics": {
     "ng-add": {
       "description": "Add my library to the project.",
-      "factory": "./dist/schematics/ng-add/index#ngAdd"
+      "factory": "./schematics/ng-add/index#ngAdd"
     },
     "app": {
       "description": "Creates a Mockly application",
-      "factory": "./dist/schematics/app/index#app"
+      "factory": "./schematics/app/index#app",
+      "schema": "./schematics/app/schema.json"
     }
   }
 }

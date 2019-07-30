@@ -5,7 +5,12 @@
   "type": "object",
   "properties": {
     "name": {
-      "description": "App name",
+      "description": "Mockly app name",
+      "type": "string",
+      "x-promt": "What will be the app name?"
+    },
+    "path": {
+      "description": "App parent folder",
       "type": "string"
     }
   },

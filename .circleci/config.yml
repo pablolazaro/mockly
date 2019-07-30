@@ -40,9 +40,13 @@ jobs:
           path: reports
 
       - codecov/upload:
-          file: coverage/packages/server/coverage-final.json
+          file: coverage/packages/core/coverage-final.json
           token: ddd24a41-f4e2-4670-bf00-cdff16c2fea1
 
       - codecov/upload:
           file: coverage/packages/cli/coverage-final.json
+          token: ddd24a41-f4e2-4670-bf00-cdff16c2fea1
+
+      - codecov/upload:
+          file: coverage/packages/angular/coverage-final.json
           token: ddd24a41-f4e2-4670-bf00-cdff16c2fea1

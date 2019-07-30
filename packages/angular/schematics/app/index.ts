@@ -10,44 +10,51 @@ import {
   Tree,
   url
 } from '@angular-devkit/schematics';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { experimental, normalize } from '@angular-devkit/core';
 import { join } from 'path';
 import { updateWorkspace } from '@nrwl/workspace';
-import { getWorkspace } from '@angular/cli/utilities/config';
-import { ProjectType } from '@nrwl/workspace/src/command-line/affected-apps';
 
 // You don't have to export the function as default. You can also have more than one rule factory
 // per file.
 
 export interface MocklyAppSchema {
   name: string;
+  path: string;
 }
 export function app(_options: MocklyAppSchema): Rule {
   return (tree: Tree, _context: SchematicContext) => {
-    const workspaceConfig = tree.read('/angular.json');
+    let parentFolder = null;
 
-    if (!workspaceConfig) {
-      throw new SchematicsException(
-        'Could not find Angular workspace configuration'
+    if (
+      _options.path !== null &&
+      _options.path !== undefined &&
+      _options.path.length !== 0
+    ) {
+      parentFolder = _options.path;
+    } else {
+      const workspaceConfig = tree.read('/angular.json');
+
+      if (!workspaceConfig) {
+        throw new SchematicsException(
+          'Could not find Angular workspace configuration'
+        );
+      }
+
+      // convert workspace to string
+      const workspaceContent = workspaceConfig.toString();
+
+      // parse workspace string into JSON object
+      const workspace: experimental.workspace.WorkspaceSchema = JSON.parse(
+        workspaceContent
       );
+
+      parentFolder = workspace.newProjectRoot || '';
     }
-    // convert workspace to string
-    const workspaceContent = workspaceConfig.toString();
 
-    // parse workspace string into JSON object
-    const workspace: experimental.workspace.WorkspaceSchema = JSON.parse(
-      workspaceContent
-    );
-
-    const appPath = join(
-      normalize(workspace.newProjectRoot || ''),
-      'apps',
-      _options.name
-    );
+    const appPath = join(normalize(parentFolder), _options.name);
 
     return chain([
-      addMocklyAppToWorkspace(_options.name),
+      addMocklyAppToWorkspace(_options.name, appPath),
       createMocklyAppFiles(appPath)
     ]);
   };
@@ -62,8 +69,8 @@ function createMocklyAppFiles(path: string): Rule {
   return mergeWith(templateSource);
 }
 
-function addMocklyAppToWorkspace(name: string): Rule {
-  const project = createProjectDefinition(name);
+function addMocklyAppToWorkspace(name: string, path: string): Rule {
+  const project = createProjectDefinition(path);
 
   return updateWorkspace(workspace => {
     workspace.projects.add({
@@ -73,16 +80,16 @@ function addMocklyAppToWorkspace(name: string): Rule {
   });
 }
 
-function createProjectDefinition(name: string) {
+function createProjectDefinition(path: string) {
   return {
-    root: `apps/${name}`,
-    sourceRoot: `apps/${name}/src`,
+    root: path,
+    sourceRoot: `${path}/src`,
     projectType: 'application',
     architect: {
       serve: {
         builder: '@mockly/angular:start',
         options: {
-          tsConfig: `apps/${name}/tsconfig.json`
+          tsConfig: `${path}/tsconfig.json`
         }
       }
     }

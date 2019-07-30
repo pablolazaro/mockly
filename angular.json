@@ -3,6 +3,31 @@
   "version": 1,
   "newProjectRoot": "",
   "projects": {
+    "angular": {
+      "root": "packages/angular",
+      "sourceRoot": "packages/angular",
+      "projectType": "application",
+      "prefix": "angular",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "packages/angular/tsconfig.json"
+            ],
+            "exclude": ["**/node_modules/**", "!packages/angular/**", "**/dist/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "packages/angular/jest.config.js",
+            "tsConfig": "packages/angular/tsconfig.spec.json"
+          }
+        }
+      }
+    },
     "core": {
       "root": "packages/core",
       "sourceRoot": "packages/core/src",
@@ -31,7 +56,7 @@
             "tsConfig": [
               "packages/core/tsconfig.json"
             ],
-            "exclude": ["**/node_modules/**", "!packages/server/**", "**/dist/**"]
+            "exclude": ["**/node_modules/**", "!packages/core/**", "**/dist/**"]
           }
         },
         "test": {
