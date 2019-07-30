@@ -14,9 +14,7 @@ import { JsonObject, JsonValue } from '@angular-devkit/core';
 // You don't have to export the function as default. You can also have more than one rule factory
 // per file.
 export function ngAdd(_options: any): Rule {
-  const mocklyVersion = getMocklyVersion();
-
-  return chain([addInstallTask(), updatePackageJson(mocklyVersion)]);
+  return chain([addInstallTask(), updatePackageJson()]);
 }
 
 export function addInstallTask() {
@@ -26,7 +24,7 @@ export function addInstallTask() {
   };
 }
 
-export function updatePackageJson(version: string) {
+export function updatePackageJson() {
   return updateJsonInTree('package.json', packageJson => {
     if (
       packageJson === null ||
@@ -42,7 +40,8 @@ export function updatePackageJson(version: string) {
 
     const updatedDevDependencies = {
       ...devDependencies,
-      '@mockly/core': version
+      '@mockly/core': getMocklyVersion(),
+      '@nrwl/workspace': getDependencyVersion('@nrwl/workspace')
     };
 
     return { ...packageJson, devDependencies: updatedDevDependencies };
@@ -60,5 +59,19 @@ export function getMocklyVersion(): string {
     );
   } else {
     return (packageJson as JsonObject).version as string;
+  }
+}
+
+export function getDependencyVersion(name: string): string {
+  const packageJson: JsonValue = readJsonFile(
+    normalize(join(__dirname, '..', '..', 'package.json'))
+  );
+
+  if (packageJson === null) {
+    throw new SchematicsException(
+      'Unable to find @mockly/angular package.json file'
+    );
+  } else {
+    return (packageJson as any).peerDependencies[name] as string;
   }
 }

@@ -9,6 +9,7 @@
   },
   "projects": {
     "core": {},
-    "cli": {}
+    "cli": {},
+    "angular": {}
   }
 }
