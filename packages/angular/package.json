@@ -12,12 +12,14 @@
   "keywords": [],
   "author": "Pablo Lazaro",
   "license": "ISC",
-  "peerDependencies": {
+  "dependencies": {
     "@angular-devkit/architect": "^0.801.2",
     "@angular-devkit/core": "^8.1.2",
     "@angular-devkit/schematics": "^8.1.2",
-    "@mockly/core": "^0.0.1-alpha.13",
     "@nrwl/workspace": "8.2.0"
+  },
+  "peerDependencies": {
+    "@mockly/core": "0.0.1-alpha.17"
   },
   "publishConfig": {
     "access": "public"

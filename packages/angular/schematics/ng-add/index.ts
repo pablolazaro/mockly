@@ -40,8 +40,7 @@ export function updatePackageJson() {
 
     const updatedDevDependencies = {
       ...devDependencies,
-      '@mockly/core': getMocklyVersion(),
-      '@nrwl/workspace': getDependencyVersion('@nrwl/workspace')
+      '@mockly/core': getMocklyVersion()
     };
 
     return { ...packageJson, devDependencies: updatedDevDependencies };
