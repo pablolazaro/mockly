@@ -1,6 +1,6 @@
 {
   "name": "@mockly/core",
-  "version": "0.0.1-alpha.21",
+  "version": "0.0.1-alpha.22",
   "author": "Pablo Lazaro",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

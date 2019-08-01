@@ -1,6 +1,6 @@
 {
   "name": "@mockly/angular",
-  "version": "0.0.1-alpha.21",
+  "version": "0.0.1-alpha.22",
   "description": "",
   "main": "dist/index.js",
   "builders": "./dist/builders.json",
