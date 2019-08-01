@@ -21,6 +21,7 @@
     "copy:files": "cpx packages/angular/**/files/** packages/angular/dist",
     "copy:builders": "cpx packages/angular/builders.json packages/angular/dist",
     "copy:collection": "cpx packages/angular/collection.json packages/angular/dist",
+    "replace:version": "replace-in-file ",
     "affected:apps": "nx affected:apps",
     "affected:libs": "nx affected:libs",
     "affected:build": "nx affected:build",
@@ -40,7 +41,8 @@
     "release": "lerna publish from-package",
     "version:prerelease": "lerna version prerelease --force-publish --preid alpha -m 'chore(release): publish %s'",
     "prepare": "yarn test && yarn run lint",
-    "prepack": "yarn run build:core && yarn run build:cli && yarn run build:angular"
+    "prepack": "yarn run build:core && yarn run build:cli && yarn run build:angular",
+    "postversion": "node tools/lerna/replace-version.js"
   },
   "private": true,
   "dependencies": {
@@ -76,6 +78,7 @@
     "pouchdb-find": "^7.1.1",
     "rc": "^1.2.8",
     "reflect-metadata": "^0.1.12",
+    "replace-in-file": "^4.1.1",
     "rxjs": "~6.4.0",
     "strip-json-comments": "^3.0.1",
     "supertest": "^4.0.2",

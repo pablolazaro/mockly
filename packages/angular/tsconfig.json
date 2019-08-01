@@ -20,6 +20,6 @@
   },
   "exclude": [
     "**/*.spec.ts",
-    "schematics/*/files/**/*"
+    "src/schematics/*/files/**/*"
   ]
 }

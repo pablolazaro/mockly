@@ -6,8 +6,7 @@
  * https://github.com/nrwl/nx/blob/master/packages/workspace/src/utils/fileutils.ts
  * https://github.com/nrwl/nx/blob/master/packages/workspace/src/utils/workspace.ts
  */
-import * as stripJsonComments from 'strip-json-comments';
-
+const stripJsonComments = require('strip-json-comments');
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 
 export function updateJsonInTree<T = any, O = T>(

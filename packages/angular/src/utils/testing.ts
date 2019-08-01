@@ -13,7 +13,7 @@ import { join } from 'path';
 
 const testRunner = new SchematicTestRunner(
   '@mockly/angular',
-  join(__dirname, '../collection.json')
+  join(__dirname, '../../collection.json')
 );
 
 export function runSchematic(schematicName: string, options: any, tree: Tree) {
