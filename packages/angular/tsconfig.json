@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": "tsconfig",
-    "outDir": "dist",
+    "outDir": "dist/src",
     "target": "es6",
     "declaration": true,
     "module": "commonjs",
