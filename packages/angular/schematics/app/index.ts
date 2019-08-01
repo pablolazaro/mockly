@@ -6,16 +6,12 @@ import {
   move,
   Rule,
   SchematicContext,
-  SchematicsException,
   Tree,
   url
 } from '@angular-devkit/schematics';
-import { experimental, normalize } from '@angular-devkit/core';
+import { normalize } from '@angular-devkit/core';
 import { join } from 'path';
-import { updateWorkspace } from '@nrwl/workspace';
-
-// You don't have to export the function as default. You can also have more than one rule factory
-// per file.
+import { getWorkspaceConfig, updateWorkspace } from '../../utils/workspace';
 
 export interface MocklyAppSchema {
   name: string;
@@ -32,23 +28,9 @@ export function app(_options: MocklyAppSchema): Rule {
     ) {
       parentFolder = _options.path;
     } else {
-      const workspaceConfig = tree.read('/angular.json');
+      const workspaceConfig = getWorkspaceConfig(tree);
 
-      if (!workspaceConfig) {
-        throw new SchematicsException(
-          'Could not find Angular workspace configuration'
-        );
-      }
-
-      // convert workspace to string
-      const workspaceContent = workspaceConfig.toString();
-
-      // parse workspace string into JSON object
-      const workspace: experimental.workspace.WorkspaceSchema = JSON.parse(
-        workspaceContent
-      );
-
-      parentFolder = workspace.newProjectRoot || '';
+      parentFolder = workspaceConfig.newProjectRoot || '';
     }
 
     const appPath = join(normalize(parentFolder), _options.name);
