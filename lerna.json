@@ -7,7 +7,7 @@
   "useWorkspaces": true,
   "command": {
     "version": {
-      "message": "chore(release): prepares release %s"
+      "message": "chore(release): creates release %s"
     }
   }
 }
