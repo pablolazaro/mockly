@@ -19,7 +19,7 @@
     "strip-json-comments": "^3.0.1"
   },
   "peerDependencies": {
-    "@mockly/core": "0.0.1-alpha.17"
+    "@mockly/core": "file:../core"
   },
   "publishConfig": {
     "access": "public"
