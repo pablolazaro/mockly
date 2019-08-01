@@ -1,1 +1,1 @@
-export const mocklyVersion = '0.0.1-alpha.20';
+export const mocklyVersion = '0.0.1-alpha.21';
