@@ -14,7 +14,7 @@ async function replaceVersion() {
 
     const result = await replace({
       files: join(cwd(), 'packages', 'angular', 'src', 'utils', 'versions.ts'),
-      from: /mocklyVersion = \'\d.\d.\d\'/g,
+      from: /mocklyVersion = \'\d.\d.\d([a-z0-9\.\-]*)'/g,
       to: `mocklyVersion = '${version}'`
     });
 
