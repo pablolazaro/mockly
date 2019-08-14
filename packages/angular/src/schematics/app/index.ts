@@ -10,7 +10,7 @@ import {
   url
 } from '@angular-devkit/schematics';
 import { normalize } from '@angular-devkit/core';
-import { join } from 'path';
+import { join, sep as SEPARATOR } from 'path';
 import { getWorkspaceConfig, updateWorkspace } from '../../utils/workspace';
 
 export interface MocklyAppSchema {
@@ -63,15 +63,17 @@ function addMocklyAppToWorkspace(name: string, path: string): Rule {
 }
 
 function createProjectDefinition(path: string) {
+  const pathForPosix = path.split(SEPARATOR).join('/');
+
   return {
-    root: path,
-    sourceRoot: `${path}/src`,
+    root: pathForPosix,
+    sourceRoot: `${pathForPosix}/src`,
     projectType: 'application',
     architect: {
       serve: {
         builder: '@mockly/angular:start',
         options: {
-          tsConfig: `${path}/tsconfig.json`
+          tsConfig: `${pathForPosix}/tsconfig.json`
         }
       }
     }

@@ -1,5 +1,5 @@
 import { createDatabase } from '../utils';
-import { DatabaseRegistry } from '../services/database-registry.service';
+import { DatabaseRegistry } from '../services';
 import { DataController } from './data.controller';
 import { NotFoundException } from '@nestjs/common';
 
