@@ -1,7 +1,7 @@
 import { promisify } from 'util';
 import { readFile } from 'fs';
 import globby from 'globby';
-import { join } from 'path';
+import { join, sep } from 'path';
 
 const promisifiedReadFile = promisify(readFile);
 
@@ -18,5 +18,9 @@ export async function findFiles(
   glob: string,
   cwd: string = ''
 ): Promise<string[]> {
-  return globby(join(cwd, glob));
+  return globby(
+    join(cwd, glob)
+      .split(sep)
+      .join('/')
+  );
 }

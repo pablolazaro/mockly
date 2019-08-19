@@ -12,10 +12,10 @@
     "test:ci": "ng test -passWithNoTests",
     "lint": "nx lint && ng lint",
     "e2e": "ng e2e",
-    "build:cli": "rm -rf packages/cli/dist/ && tsc --project packages/cli/tsconfig.json",
-    "build:core": "rm -rf packages/core/dist/ && tsc --project packages/core/tsconfig.json",
-    "build:angular": "rm -rf packages/angular/dist/ && tsc --project packages/angular/tsconfig.json",
-    "prebuild:angular": "rm -rf packages/angular/dist",
+    "build:cli": "rimraf -rf packages/cli/dist/ && tsc --project packages/cli/tsconfig.json",
+    "build:core": "rimraf -rf packages/core/dist/ && tsc --project packages/core/tsconfig.json",
+    "build:angular": "rimraf -rf packages/angular/dist/ && tsc --project packages/angular/tsconfig.json",
+    "prebuild:angular": "rimraf -rf packages/angular/dist",
     "postbuild:angular": "npm run copy:schemas && npm run copy:files && npm run copy:builders && npm run copy:collection",
     "copy:schemas": "cpx packages/angular/**/schema.json packages/angular/dist",
     "copy:files": "cpx packages/angular/**/files/** packages/angular/dist",
@@ -108,12 +108,10 @@
     "jest-preset-angular": "7.0.0",
     "lerna": "^3.16.0",
     "prettier": "1.16.4",
+    "rimraf": "^3.0.0",
     "ts-jest": "24.0.0",
-    "ts-node": "~7.0.0",
+    "ts-node": "^8.3.0",
     "tslint": "~5.11.0",
     "typescript": "~3.4.5"
-  },
-  "workspaces": [
-    "packages/*"
-  ]
+  }
 }
