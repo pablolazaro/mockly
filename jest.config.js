@@ -6,5 +6,9 @@ module.exports = {
   resolver: '@nrwl/jest/plugins/resolver',
   moduleFileExtensions: ['ts', 'js', 'html'],
   collectCoverage: true,
-  coverageReporters: ['html', 'lcov', 'json']
+  coverageReporters: ['html', 'lcov', 'json'],
+  watchPlugins: [
+    'jest-watch-typeahead/filename',
+    'jest-watch-typeahead/testname'
+  ]
 };

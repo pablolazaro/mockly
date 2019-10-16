@@ -2,11 +2,12 @@ import { createDatabase } from '../utils';
 import { DatabaseRegistry } from '../services';
 import { DataController } from './data.controller';
 import { NotFoundException } from '@nestjs/common';
+import { DocumentRepository } from '../repositories/document.repository';
+import { DocumentService } from '../services';
 
 describe('DataController', () => {
   let db: PouchDB.Database;
   let controller: DataController<any>;
-  let map: Map<string, PouchDB.Database>;
 
   beforeEach(async () => {
     if (db) {
@@ -16,9 +17,10 @@ describe('DataController', () => {
 
     await db.bulkDocs([{ name: 'status', value: { ok: true } }]);
 
-    map = new Map();
-    map.set('data', db);
-    controller = new DataController(new DatabaseRegistry(map), 'status');
+    const repository = new DocumentRepository<any>(db as any);
+    const service = new DocumentService<any>(repository);
+
+    controller = new DataController('status', service);
   });
 
   it('should return data', async () => {
@@ -34,10 +36,14 @@ describe('DataController', () => {
   });
 
   it('should throw exception if data does not exists', async () => {
-    const fakeController = new DataController(
-      new DatabaseRegistry(map),
-      'fake'
-    );
+    db = createDatabase('data');
+
+    await db.bulkDocs([{ name: 'status', value: { ok: true } }]);
+
+    const repository = new DocumentRepository<any>(db as any);
+    const service = new DocumentService<any>(repository);
+
+    const fakeController = new DataController('fake', service);
 
     expect(fakeController.getData()).rejects.toThrow(NotFoundException);
     expect(fakeController.postData()).rejects.toThrow(NotFoundException);

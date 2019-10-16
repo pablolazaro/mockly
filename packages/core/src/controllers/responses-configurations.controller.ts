@@ -9,18 +9,14 @@ import {
 } from '@nestjs/common';
 import { ResponseConfig } from '../models';
 import { DocumentService } from '../services/document.service';
-import { DocumentRepository } from '../repositories/document.repository';
-import { DatabaseRegistry } from '../services/database-registry.service';
+import { InjectService } from '../decorators/inject-service.decorator';
 
 @Controller('responses')
 export class ResponsesConfigurationsController {
-  private readonly _service: DocumentService<ResponseConfig>;
-
-  constructor(readonly registry: DatabaseRegistry) {
-    this._service = new DocumentService(
-      new DocumentRepository<ResponseConfig>(registry.get('responses'))
-    );
-  }
+  constructor(
+    @InjectService('responses')
+    private readonly _service: DocumentService<ResponseConfig>
+  ) {}
 
   @Get()
   async all(): Promise<Array<ResponseConfig>> {

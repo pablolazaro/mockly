@@ -4,24 +4,26 @@ import { ResponsesConfigurationsController } from './responses-configurations.co
 import { NotFoundException, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
+import { DocumentService } from '../services';
+import { DocumentRepository } from '../repositories/document.repository';
+import { ResponseConfig } from '../models';
 
 describe('ResponsesConfigurationsController', () => {
-  let db: PouchDB.Database;
+  let db: PouchDB.Database<ResponseConfig>;
   let controller: ResponsesConfigurationsController;
 
   beforeEach(async () => {
     if (db) {
       await db.destroy();
     }
-    db = createDatabase('responses');
+    db = createDatabase<ResponseConfig>('responses');
 
-    await db.bulkDocs([{ _id: '12345', path: '/cats', status: 500 }]);
+    await db.bulkDocs([{ _id: '12345', path: '/cats', status: 500 }] as any);
 
-    const map = new Map();
-    map.set('responses', db);
-    controller = new ResponsesConfigurationsController(
-      new DatabaseRegistry(map)
-    );
+    const repository = new DocumentRepository<ResponseConfig>(db);
+    const service = new DocumentService<ResponseConfig>(repository);
+
+    controller = new ResponsesConfigurationsController(service);
   });
 
   it('should instantiate', () => {
@@ -79,21 +81,20 @@ describe('ResponsesConfigurationsController (e2e)', () => {
     if (db) {
       await db.destroy();
     }
-    db = createDatabase('responses');
 
-    await db.bulkDocs([
-      { _id: '12345', path: '/cats', method: 'GET', status: 500 }
-    ]);
+    db = createDatabase<ResponseConfig>('responses');
 
-    const map = new Map();
-    map.set('responses', db);
+    await db.bulkDocs([{ _id: '12345', path: '/cats', status: 500 }] as any);
+
+    const repository = new DocumentRepository<ResponseConfig>(db as any);
+    const service = new DocumentService<ResponseConfig>(repository);
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
       controllers: [ResponsesConfigurationsController],
       providers: [
         {
-          provide: DatabaseRegistry,
-          useValue: new DatabaseRegistry(new Map().set('responses', db))
+          provide: 'ResponsesService',
+          useValue: service
         }
       ]
     }).compile();

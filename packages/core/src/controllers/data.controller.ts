@@ -1,19 +1,11 @@
 import { Get, HttpCode, NotFoundException, Post } from '@nestjs/common';
-import { DatabaseRegistry } from '../services/database-registry.service';
 import { DocumentService } from '../services/document.service';
-import { DocumentRepository } from '../repositories/document.repository';
 
 export class DataController<T> {
-  private readonly _service: DocumentService<T>;
-
   constructor(
-    readonly _registry: DatabaseRegistry,
-    private readonly _dataName: string
-  ) {
-    this._service = new DocumentService(
-      new DocumentRepository<T>(this._registry.get('data'))
-    );
-  }
+    private readonly _dataName: string,
+    private readonly _service: DocumentService<T>
+  ) {}
 
   @Get()
   async getData() {

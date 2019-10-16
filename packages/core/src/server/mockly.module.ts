@@ -10,7 +10,7 @@ import { ResponsesConfigurationsController } from '../controllers/responses-conf
 import { DocumentServiceRegistry } from '../services';
 
 const MOCKLY_CONTROLLERS = [ResponsesConfigurationsController];
-const MOCKLY_PROVIDERS = [DocumentServiceRegistry];
+const MOCKLY_PROVIDERS = [];
 
 @Module({})
 export class MocklyModule implements NestModule {
