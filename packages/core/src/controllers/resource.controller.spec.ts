@@ -2,6 +2,9 @@ import { ResourceController } from './resource.controller';
 import { createDatabase } from '../utils';
 import { DatabaseRegistry } from '../services/database-registry.service';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { ResponseConfig } from '../models';
+import { DocumentRepository } from '../repositories/document.repository';
+import { DocumentService } from '../services';
 
 describe('ResourceController', () => {
   let db: PouchDB.Database;
@@ -11,10 +14,12 @@ describe('ResourceController', () => {
     if (db) {
       await db.destroy();
     }
-    db = createDatabase('cars');
-    const map = new Map();
-    map.set('cars', db);
-    controller = new ResourceController(new DatabaseRegistry(map), 'cars');
+    db = createDatabase<any>('cars');
+
+    const repository = new DocumentRepository<any>(db as any);
+    const service = new DocumentService<any>(repository);
+
+    controller = new ResourceController('cars', service);
   });
 
   it('should instantiate', () => {

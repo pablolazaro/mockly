@@ -6,6 +6,8 @@ import { ControllerFactory } from '../factories/controller.factory';
 import { ControllerType } from '../models/controller-type';
 import { DelayInterceptor } from '../interceptors/delay.interceptor';
 import { MocklyConfig } from '../models/mockly-config';
+import { DocumentRepository } from '../repositories/document.repository';
+import { DocumentService } from '../services';
 
 describe('EphimeralDataController (e2e)', () => {
   let app;
@@ -20,6 +22,9 @@ describe('EphimeralDataController (e2e)', () => {
 
     await db.bulkDocs([{ name: 'status', value: { ok: true } }]);
 
+    const repository = new DocumentRepository<any>(db as any);
+    const service = new DocumentService<any>(repository);
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
       controllers: [
         ControllerFactory.create(
@@ -31,8 +36,8 @@ describe('EphimeralDataController (e2e)', () => {
       ],
       providers: [
         {
-          provide: DatabaseRegistry,
-          useValue: new DatabaseRegistry(new Map().set('data', db))
+          provide: 'DataService',
+          useValue: service
         },
         DelayInterceptor,
         {
@@ -70,7 +75,7 @@ describe('EphimeralDataController (e2e)', () => {
     expect(dataPost.ok).toBe(true);
   });
 
-  xit('should return 404 if data does not exists', async () => {
+  it('should return 404 if data does not exists', async () => {
     await request(app.getHttpServer())
       .get('/fake')
       .expect(404);

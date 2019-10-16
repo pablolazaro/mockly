@@ -8,22 +8,14 @@ import {
   Post,
   Put
 } from '@nestjs/common';
-import { DatabaseRegistry } from '../services/database-registry.service';
 import { DocumentService } from '../services/document.service';
-import { DocumentRepository } from '../repositories/document.repository';
 import { getRandomId } from '../utils';
 
 export class ResourceController<T> {
-  private readonly _service: DocumentService<T>;
-
   constructor(
-    readonly _registry: DatabaseRegistry,
-    readonly _resourceName: string
-  ) {
-    this._service = new DocumentService(
-      new DocumentRepository<T>(this._registry.get(this._resourceName))
-    );
-  }
+    readonly _resourceName: string,
+    private readonly _service: DocumentService<T>
+  ) {}
 
   @Get()
   async getAll() {
@@ -32,7 +24,10 @@ export class ResourceController<T> {
 
   @Post()
   async create(@Body() body: any): Promise<PouchDB.Core.ExistingDocument<T>> {
-    if (typeof body !== 'object') {
+    if (
+      typeof body !== 'object' ||
+      Object.getOwnPropertyNames(body).length === 0
+    ) {
       throw new BadRequestException();
     } else {
       const id = getRandomId();
@@ -50,7 +45,10 @@ export class ResourceController<T> {
     @Param('id') id: string,
     @Body() body: any
   ): Promise<PouchDB.Core.ExistingDocument<T>> {
-    if (typeof body !== 'object') {
+    if (
+      typeof body !== 'object' ||
+      Object.getOwnPropertyNames(body).length === 0
+    ) {
       throw new BadRequestException();
     } else {
       return await this._service.update({ ...body, id }, false);

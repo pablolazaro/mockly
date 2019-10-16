@@ -6,6 +6,8 @@ import { createDatabase } from '../utils';
 import { ControllerFactory } from '../factories/controller.factory';
 import { ControllerType } from '../models/controller-type';
 import { DelayInterceptor } from '../interceptors/delay.interceptor';
+import { DocumentRepository } from '../repositories/document.repository';
+import { DocumentService } from '../services';
 
 describe('EphimeralResourceController (e2e)', () => {
   let app;
@@ -18,6 +20,10 @@ describe('EphimeralResourceController (e2e)', () => {
       { id: '1', name: 'Kitty', color: 'brown' },
       { id: '2', name: 'Pitty', color: 'black' }
     ]);
+
+    const repository = new DocumentRepository<any>(db as any);
+    const service = new DocumentService<any>(repository);
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
       controllers: [
         ControllerFactory.create(
@@ -28,8 +34,8 @@ describe('EphimeralResourceController (e2e)', () => {
       ],
       providers: [
         {
-          provide: DatabaseRegistry,
-          useValue: new DatabaseRegistry(new Map().set('cats', db))
+          provide: 'CatsService',
+          useValue: service
         },
         DelayInterceptor,
         {
@@ -97,7 +103,7 @@ describe('EphimeralResourceController (e2e)', () => {
     expect(data.color).toBe('red');
   });
 
-  xit('should delete a resource', async () => {
+  it('should delete a resource', async () => {
     await request(app.getHttpServer())
       .delete('/cats/1')
       .expect(204);
@@ -107,13 +113,14 @@ describe('EphimeralResourceController (e2e)', () => {
       .expect(404);
   });
 
-  xit('should return 404 when trying to get, update or delete an nonexistent resource', async () => {
+  it('should return 404 when trying to get, update or delete an nonexistent resource', async () => {
     await request(app.getHttpServer())
       .get('/cats/999')
       .expect(404);
 
     await request(app.getHttpServer())
       .put('/cats/999')
+      .send({ val: 1 })
       .expect(404);
 
     await request(app.getHttpServer())
@@ -121,15 +128,15 @@ describe('EphimeralResourceController (e2e)', () => {
       .expect(404);
   });
 
-  xit('should return 400 when trying to create or update a resource with an invalid body', async () => {
+  it('should return 400 when trying to create or update a resource with an invalid body', async () => {
     await request(app.getHttpServer())
       .post('/cats')
-      .send()
+      .send({})
       .expect(400);
 
     await request(app.getHttpServer())
       .put('/cats/1')
-      .send()
+      .send({})
       .expect(400);
   });
 });

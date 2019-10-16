@@ -1,19 +1,15 @@
-import { NestMiddleware, Injectable } from '@nestjs/common';
+import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { ResponseConfig } from '../models/response-config';
-import { DatabaseRegistry } from '../services/database-registry.service';
 import { DocumentService } from '../services/document.service';
-import { DocumentRepository } from '../repositories/document.repository';
+import { InjectService } from '../decorators/inject-service.decorator';
 
 @Injectable()
 export class ResponseMiddleware implements NestMiddleware {
-  private readonly _service: DocumentService<ResponseConfig>;
-
-  constructor(readonly registry: DatabaseRegistry) {
-    this._service = new DocumentService(
-      new DocumentRepository<ResponseConfig>(registry.get('responses'))
-    );
-  }
+  constructor(
+    @InjectService('responses')
+    private readonly _service: DocumentService<ResponseConfig>
+  ) {}
 
   async use(req: Request, res: Response, next: () => void) {
     const { baseUrl, method } = req;
